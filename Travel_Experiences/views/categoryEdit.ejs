@@ -1,0 +1,17 @@
+<%include _header.ejs%>
+
+<div class="container">
+        <form action="/categories/update/<%=data.category_id%>" method="post">
+            <div class="form-group">
+                <h5>Editar la categoría</h5>
+                <input type="text" name="title" value="<%=data.title%>" placeholder="categoría" class="form-control" style= "width: 250px">
+                <h5>Editar la descripción</h5>
+                <input type="text" name="description" value="<%=data.description%>" placeholder="categoría" class="form-control" style= "width:250px; height: 100px">
+
+            </div>
+            <button type="submit" class="btn"style="background-color:rgb(235, 156,38); color:white">Aplicar</button>
+    
+</div>
+
+<%include _footer.ejs%>
+

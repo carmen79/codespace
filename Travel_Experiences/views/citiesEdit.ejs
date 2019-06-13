@@ -1,0 +1,17 @@
+
+<%include _header.ejs%>
+
+<div class="container">
+        <form action="/cities/update/<%=data.city_id%>" method="post">
+            <div class="form-group">
+                <h5>Añade una nueva ciudad</h5>
+                <input type="text" name="name" value="<%=data.name%>" placeholder="Ciudad" class="form-control" style= "width: 250px">
+
+            </div>
+            <button type="submit" class="btn" style="background-color:rgb(235, 156,38); color:white">Aplicar</button>
+    
+</div>
+
+
+<%include _footer.ejs%>
+

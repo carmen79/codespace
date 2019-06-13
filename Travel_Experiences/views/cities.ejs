@@ -1,0 +1,54 @@
+<%include _header.ejs%>
+<!--
+
+Este fichero EJS se llama desde el cityController y le hemos pasado una variable
+rellena con todas las cities que se llama 'cities', cuando llamamos alli al metodo
+render
+ EJ: res.render('cities', { cities: result });
+Ese array es lo que pintamos en la siguiente tabla HTML
+-->
+<div class="container">
+        <form action="/cities/add" method="post">
+            <div class="form-group">
+                <h5>Añadir una nueva ciudad</h5>
+                <input type="text" name="name" value="" placeholder="Ciudad" class="form-control" style= "width: 250px">
+
+            </div>
+            <button type="submit" class="btn" style= "background-color:rgb(235, 156,38);color:white">Añadir</button> 
+            <br>
+            <br>
+    <div class="row">
+        <div class="col-7">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (cities) { %>
+                    <% for (let i=0; i < cities.length; i++){ %>
+
+                    <tr>
+                        <td><%= cities[i].city_id %></td>
+                        <td><%= cities[i].name %></td>
+                        <td>
+                                <a href="/cities/delete/<%=cities[i].city_id%>" class="btn" 
+                                style="background-color:rgb(235, 156,38);
+                                       color:white">Eliminar</a>
+                        </td>
+                        <td>
+                                <a href="/cities/update/<%=cities[i].city_id%>" class="btn" style="background-color:rgb(235, 156,38);
+                                    color:white">Editar</a>
+                        </td>
+                    </tr>
+                    <% } %>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%include _footer.ejs%>

@@ -1,0 +1,19 @@
+const mysql = require('mysql');
+
+const dbConn = mysql.createConnection ({
+    host: 'localhost',
+    user: 'root',
+    password: '3500',
+    // password: '1234',
+    database: 'mytravelmap'
+});
+
+dbConn.connect((err) => {
+    if (err) {
+        throw err;
+    }
+    console.log('Connected to database OK');
+});
+
+module.exports = dbConn;
+

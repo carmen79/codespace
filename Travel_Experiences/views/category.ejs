@@ -1,0 +1,56 @@
+<%include _header.ejs%>
+
+
+<div class="container">
+        <form action="/categories/add" method="post">
+            <div class="form-group">
+                <h5>Añade una nueva categoría</h5>
+                <input type="text" name="title" value="" placeholder="Categoría" class="form-control" style="width: 250px">
+                <h5>Añade Descripción</h5>
+                <input type="text" name="description" value="" placeholder="Description" class="form-control" style="width: 250px; height: 100px;">
+
+            </div>
+
+               <button type="submit" class="btn" style="background-color:rgb(235, 156,38); color:white">Añadir</button>
+               <br>
+               <br>
+        
+            
+    <div class="row">
+        <div class="col-7">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Categoria</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (categories) { %>
+                    <% for (let i=0; i < categories.length; i++){ %>
+
+                    <tr>
+                        <td><%= categories[i].category_id %></td>
+                        <td><%= categories[i].title %></td>
+                        <td><%= categories[i].description %></td>
+                        <td>
+                                <a href="/categories/delete/<%=categories[i].category_id%>" 
+                                    class="btn" style="background-color:rgb(235, 156,38);
+                                    color:white">Eliminar</a>
+                        </td>
+                        <td>
+                                <a href="/categories/update/<%=categories[i].category_id%>" class="btn" style= "background-color:rgb(235, 156, 38);
+                                    color:white">Editar</a>
+                        </td>
+                    </tr>
+                    <% } %>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<%include _footer.ejs%>
