@@ -1,0 +1,22 @@
+<% include ../_header %>
+
+<body>
+    <div class="container">
+        <h1><%= title %></h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="artistName">Name:</label>
+                <input type="text" class="form-control" id="artistName" name="name" placeholder="Enter name"
+                    value="<%= data.name %>">
+            </div>
+            <div class="form-group">
+                <label for="artistNationality">Nationality:</label>
+                <input type="text" class="form-control" id="artistNationality" placeholder="Enter Nationality"
+                    value="<%= data.nationality %>" name="nationality">
+            </div>
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+    </div>
+</body>
+
+<%include ../_footer %>

@@ -1,0 +1,57 @@
+<% include ../_header %>
+
+<body>
+
+  <div class="container-fluid border p-0">
+    <table class="table m-0">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Song</th>
+          <th scope="col">Artist</th>
+          <th scope="col">Album</th>
+          <th scope="col">Duration</th>
+          <th scope="col">Format</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+        <%
+        if (data) {
+          for (const elem of data) {
+            %>
+
+        <tr>
+          <td><%= elem._id %></td>
+          <td><%= elem.name %></td>
+          <td><%= elem.artist.name %></td>
+          <td><%= elem.album.name %></td>
+          <td><%= elem.duration %></td>
+          <td><%= elem.format %></td>
+          <td class="bg-dark text-center">
+            <a href="/songs/edit/<%= elem._id%>" class="btn btn-warning">Editar</a>
+          </td>
+          <td class="bg-dark text-center">
+            <a href="/songs/delete/<%= elem._id%>" class="btn btn-danger">Eliminar</a>
+          </td>
+        </tr>
+        <%
+        }
+      }
+        %>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div class="container mt-3 d-flex justify-content-center">
+    <a href="/songs/add" class="btn btn-info">Add</a>
+  </div>
+<%
+if (message) {
+%>
+  <span><%= message %></span>
+<%
+}
+%>
+</body>
+<% include ../_footer %>

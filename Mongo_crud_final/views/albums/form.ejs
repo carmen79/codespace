@@ -1,0 +1,26 @@
+<% include ../_header %>
+
+<body>
+    <div class="container">
+        <h1><%= title %></h1>
+        <form enctype="multipart/form-data" method="post">
+            <div class="form-group">
+                <label for="albumName">Name:</label>
+                <input type="text" class="form-control" id="albumName" name="name" placeholder="Enter name"
+                    value="<%= data.name %>">
+            </div>
+            <div class="form-group">
+                <label for="albumRelease">Release Year:</label>
+                <input type="number" class="form-control" id="albumRelease" placeholder="Enter Release Year"
+                    value="<%= data.releaseYear %>" name="releaseYear">
+            </div>            
+            <div class="form-group">
+                <label for="coverData">Cover:</label>
+                <input type="file" class="form-control p-0 border-0" id="coverData" placeholder="Enter Data of Cover" name="coverFilename">
+            </div>
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+    </div>
+</body>
+
+<%include ../_footer %>

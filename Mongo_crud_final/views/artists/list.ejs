@@ -1,0 +1,51 @@
+<% include ../_header %>
+
+<body>
+
+  <div class="container-fluid border p-0">
+    <table class="table m-0">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Artist</th>
+          <th scope="col">Nationality</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+        <%
+        if (data) {
+          for (const elem of data) {
+            %>
+
+        <tr>
+          <td><%= elem._id %></td>
+          <td><%= elem.name %></td>
+          <td><%= elem.nationality %></td>
+          <td class="bg-dark text-center">
+            <a href="/artists/edit/<%= elem._id%>" class="btn btn-warning">Editar</a>
+          </td>
+          <td class="bg-dark text-center">
+            <a href="/artists/delete/<%= elem._id%>" class="btn btn-danger">Eliminar</a>
+          </td>
+        </tr>
+        <%
+        }
+      }
+        %>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div class="container mt-3 d-flex justify-content-center">
+    <a href="/artists/add" class="btn btn-info">Add</a>
+  </div>
+<%
+if (message) {
+%>
+  <span><%= message %></span>
+<%
+}
+%>
+</body>
+<% include ../_footer %>

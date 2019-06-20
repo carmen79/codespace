@@ -1,0 +1,77 @@
+<% include ../_header %>
+
+<body>
+    <div class="container">
+        <h1><%= title %></h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="songName">Name:</label>
+                <input type="text" class="form-control" id="songName" name="name" placeholder="Enter name"
+                    value="<%= data.name %>">
+            </div>
+            <div class="form-group">
+                <label for="songDuration">Duration:</label>
+                <input type="number" class="form-control" id="songDuration" placeholder="Duration"
+                    value="<%= data.duration %>" name="duration">
+            </div>
+            <div class="form-group">
+                <label for="songFormat">Format:</label>
+                <input type="text" class="form-control" id="songFormat" placeholder="Format" value="<%= data.format %>"
+                    name="format">
+
+            </div>
+            <div class="form-group">
+                <label for="songArtist">Artist</label>
+                <select multiple class="form-control" id="songArtist" name="artist">
+                    <%
+            for (const a of allArtists) {
+                let isSelected;
+                if (mode === 'edit') {
+                <!-- We need to stringify because we're comparing objects -->              
+                const artistID = JSON.stringify(data.artist._id);
+                const songID = JSON.stringify(a._id);
+
+                <!-- Using a ternary conditional for put option selected -->
+                isSelected = artistID === songID ? 'selected' : ''
+                } else { 
+                    isSelected = '';
+                }
+                %>
+                    <option <%=isSelected%> value="<%= a._id %>"><%= a.name %></option>
+                    <%
+            }
+                %>
+
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="songAlbum">Album</label>
+                <select multiple class="form-control" id="songAlbum" name="album">
+                    <%
+                        for (const a of allAlbums) {
+                            let isSelected;
+                            if (mode === 'edit') {
+                            <!-- We need to stringify because we're comparing objects -->
+                            const albumID = JSON.stringify(data.album._id);
+                            const songID = JSON.stringify(a._id);
+
+                            <!-- If the album listed is the song's album, we select it -->
+                             isSelected = albumID === songID ? 'selected' : '';
+                            } else {
+                                isSelected = '';
+                            }
+                            %>
+                    <option <%=isSelected%> value="<%= a._id %>"><%= a.name %></option>
+                    <%
+                        }
+                            %>
+
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+    </div>
+</body>
+
+<%include ../_footer %>
