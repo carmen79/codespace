@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+  
+</head>
+
+<body>
+<ul id = "list"></ul>
+   
+</body>
+
+<script>
+    const token = localStorage.getItem("token")
+    fetch ("api/users", {
+        headers:{
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + token
+        }
+
+    }).then(res =>{     
+        if(res.ok) {
+            res.json().then(json =>
+                json.map(users => {
+                    const li = document.createElement("li");
+                    if (users.email){
+                        li.innerText = users.username +" ( " + users.email + ")";
+                    }else {
+                        li.innerText = users.username; 
+                    }
+            
+                    document.getElementById("list").appendChild(li);
+                })
+            )
+        }
+    })
+
+</script>
+
+</html>
