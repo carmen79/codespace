@@ -8,6 +8,8 @@ var dbConn = require("../config/db");
 //     res.send('respond with a resource');
 // });
 
+// esto es que cuando llegue una petición tipo get a la url que se indique el router ejecuta
+// la función indicada
 router.get('/users', (req, res) => {
     const token = req.headers.authorization.replace("Bearer ", "");
     console.log(token);
@@ -30,6 +32,24 @@ router.get('/users', (req, res) => {
 
 });
 
+router.get('/users/:id', (req, res) => {
+    const userId = req.params.id;
+    const token = req.headers.authorization.replace("Bearer ", "");
+    console.log(token);
+
+    try {
+        const payload = jwt.verify(token, "mysecret");
+        
+            dbConn.query(`SELECT username,email FROM users  WHERE id = ${userId}`, (_error, rows) => {
+                res.send(rows);
+            });
+        
+    } catch (e) {
+        res.status(401).send("you don`t have permission");
+    }
+
+});
+
 //aqui enviamos el token al servidor
 
 
@@ -45,9 +65,11 @@ router.post('/auth', function (req, res) {
                 { expiresIn: 3600 });
             res.send(token); // con esto se devuelve un token
         } else {
+            console.log("este es el error");
             res.status(400).send("invalid credentials") // cambiar esto y devolver un error
         }
     });
 });
+
 
 module.exports = router;

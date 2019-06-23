@@ -36,8 +36,12 @@
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ username: usernameValue, password: passwordValue })
+            body: JSON.stringify({ username: usernameValue, password: passwordValue }) 
+            // en el body irán datos tipo Json: el método Json stringify, coge el objeto y lo convierte en 
+            //un string, que es lo que se puede enviar en el body.
         })
+        // el .then es lo que tiene que pasar cuando llegue la respuesta del servidor
+        
             .then(res => {
                 if (res.ok) {
                     res.text().then(text => {

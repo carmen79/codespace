@@ -11,13 +11,14 @@
 </head>
 
 <body>
-<ul id = "list"></ul>
+<h1>User Detail</h1>
+<div id="detail"></div>
    
 </body>
 
 <script>
-    const token = localStorage.getItem("token")
-    fetch ("api/users", {
+    const token = localStorage.getItem("token");
+    fetch ("/api/users/<%=id%>", {
         headers:{
             "Content-type": "application/json",
             "Authorization": "Bearer " + token
@@ -27,14 +28,10 @@
         if(res.ok) {
             res.json().then(json =>
                 json.map(users => {
-                    const li = document.createElement("li");
-                    if (users.email != null){
-                        li.innerText = users.username +" ( " + users.email + ")";
-                    }else {
-                        li.innerText = users.username; 
-                    }
+                    const p = document.createElement("p");
+                    p.innerText = users.username  +" ( " + users.email + ")";
             
-                    document.getElementById("list").appendChild(li);
+                    document.getElementById("detail").appendChild(p);
                 })
             )
         }
