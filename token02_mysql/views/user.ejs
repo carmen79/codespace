@@ -11,7 +11,10 @@
 </head>
 
 <body>
-<ul id = "list"></ul>
+<ul id = "list">
+
+    <li>INNER TEXTSLDFALDKFALDFLADFLDALDKF</li>
+</ul>
    
 </body>
 
@@ -26,15 +29,16 @@
     }).then(res =>{     
         if(res.ok) {
             res.json().then(json =>
-                json.map(users => {
-                    const li = document.createElement("li");
-                    if (users.email != null){
-                        li.innerText = users.username +" ( " + users.email + ")";
+            // es json.map es como un for que recorre las filas que vienen en el body del response
+                json.map(userRegister => { // userRegister representa una fila en cada iteración del map
+                    let myLiElement = document.createElement("li"); //"li" es el tipo de elemento html que voy a crear
+                    if (userRegister.email != null){
+                        myLiElement.innerText = userRegister.username +" ( " + userRegister.email + ")";
                     }else {
-                        li.innerText = users.username; 
+                        myLiElement.innerText = userRegister.username; 
                     }
             
-                    document.getElementById("list").appendChild(li);
+                    document.getElementById("list").appendChild(myLiElement);
                 })
             )
         }

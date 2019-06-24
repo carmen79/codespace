@@ -20,7 +20,7 @@ router.get('/users', (req, res) => {
         const payload = jwt.verify(token, "mysecret"); //playload nos dice si es administrador
 
         let query;
-        if (payload.admin) {
+        if (payload.admin == true) {
             query = global.dbo.collection("users").find({}, { projection: { _id: 0, username: 1, email: 1 } });
             //si es admin, hacemos consulta a mongo, a tabla users, me muestre todo con las restricciones que le digo
             //hay que añadir el projection para que funcione la consulta
