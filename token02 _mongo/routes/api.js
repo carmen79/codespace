@@ -38,18 +38,32 @@ router.get('/users', (req, res) => {
     }
 
 });
+
 //en este endpoint tenemos que hacer que cuando pongas en la url un id te muestre
 // el nombre del usuario al que pertenece
-router.get('/users/:id ?', (req, res)=> {
 
-})
+router.get('/users/:id', (req, res) => {
+    const userId = req.params.id;
+    const token = req.headers.authorization.replace("Bearer ", "");
+    console.log(token);
 
+    try {
+        const payload = jwt.verify(token, "mysecret");
 
+        query = global.dbo.collection("users").find({ _id: mongo.ObjectId(userId) }, { projection: { username: 1, email: 1 } });
+
+        query.toArray().then(documents => {
+            res.send(documents);
+        });
+
+    } catch (e) {
+        res.status(401).send("you don`t have permission");
+    }
+
+});
 
 //aqui enviamos el token al servidor
 
-
-// esto es un endpoint
 
 router.post('/auth', function (req, res) {
 
@@ -75,21 +89,86 @@ router.post('/auth', function (req, res) {
             res.status(400).send("Invalid credentials");
         }
     });
-
-
 });
 
-// const data = req.body;
-// dbConn.query(`SELECT username,admin FROM users WHERE username = "${data.username}" AND password = MD5("${data.password}")`, (error, rows) => {
-//     if (rows.length > 0) {
-//         var isAdmin = rows[0].admin ? true : false;
-//         var token = jwt.sign({ username: rows[0].username, admin: isAdmin }, "mysecret",
-//             { expiresIn: 3600 });
-//         res.send(token); // con esto se devuelve un token
-//     } else {
-//         res.status(400).send("invalid credentials") // cambiar esto y devolver un error
-//     }
-// });
+router.post('/users', function (req, res) {
+    const token = req.headers.authorization.replace("Bearer ", "");
+    const newUser = req.body;
+
+    try {
+        const payload = jwt.verify(token, "mysecret");
+        if (payload.admin) {
+            global.dbo.collection("users").insertOne({
+                username: newUser.username,
+                password: md5(newUser.password),
+                admin: newUser.admin,
+                email: newUser.email
+
+            }, (error, result) => {// tine que tener un callback (sera error y result)
+                if (error) throw error;
+                res.send(result.ops[0])
+            });
+        } else {
+            res.status(403).send("Forbidden. You are not an admin.")
+        }
+
+    } catch (_err) {
+        console.log(_err);
+        res.status(401).send("Sorry, you don't have permission");
+    }
+});
+
+router.put("/users/:id", (req, res) => {
+    const token = req.headers.authorization.replace("Bearer ", "");
+    const userId = req.params.id;
+    const data = req.body;
+
+    try {
+        const payload = jwt.verify(token, "mysecret");
+        console.log(payload.admin);
+        if (payload.admin) {
+
+            global.dbo.collection("users").updateOne({ _id: mongo.ObjectId(userId) }, {
+                $set:
+                {
+                    username: data.username,
+                    password: md5(data.password),
+                    admin: data.admin,
+                    email: data.email
+                }
+            }, (error, result) => {
+                if (error) throw error;
+                res.send(result)
+            });
+        } else {
+            res.status(403).send("Forbidden. You are not an admin.")
+        }
+    } catch (_err) {
+        console.log(_err);
+        res.status(401).send(" you don't have permission to edit");
+    }
+});
+
+router.delete("/users/:id", (req, res) => {
+    const token = req.headers.authorization.replace("Bearer ", "");
+    const userId = req.params.id;
+
+    try {
+        const payload = jwt.verify(token, "mysecret");
+        if (payload.admin) {
+            global.dbo.collection("users").removeOne({ _id: mongo.ObjectId(userId)},
+                (error, result) => {
+                    if (error) throw error;
+                    res.send("deleted")
+                });
+        } else {
+            res.status(403).send("Forbidden. You are not an admin.")
+        }
+    } catch (_err) {
+        console.log(_err);
+        res.status(401).send(" you don't have permission to delete");
+    }
 
 
+})
 module.exports = router;
