@@ -1,47 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script src="/js/jwt-decode.min.js"></script>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+  </head>
 
-  
-</head>
+  <body>
+    <!-- esta es la lista de usuarios -->
+    <table id="myTable" class="table table-striped">
+      <tr style="background-color:rgb(124, 164, 180)">
+        <th scope="col" style="color: white">Nombre</th>
+        <th scope="col" style="color: white">email</th>
+        <th scope="col" style="color: white">Edit</th>
+        <th scope="col" style="color: white">Delete</th>
+      </tr>
+    </table>
+  </body>
 
-<body>
-<!-- esta es la lista de usuarios -->
-<ul id = "list"></ul>
+  <script>
+    const token = localStorage.getItem("token");
+    const decoded = jwt_decode(token);
+    console.log(decoded);
+    fetch("api/users", {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + token
+      }
+    }).then(res => {
+      if (res.ok) {
+        res.json().then(json =>
+          json.map(users => {
+            const tableRow = document.createElement("tr");
+            const columName = document.createElement("td");
+            //asignamos un texto
+            columName.innerText = users.username;
+            //añadimos la columna a la fila
+            tableRow.appendChild(columName);
 
-   
-</body>
+            const columEmail = document.createElement("td");
+            //asignamos un texto
+            if (users.email) {
+              columEmail.innerText = users.email;
+            } else {
+              columEmail.innerText = "";
+            }
+            //añadimos la columna a la fila
+            tableRow.appendChild(columEmail);
 
-<script>
-    const token = localStorage.getItem("token")
-    fetch ("api/users", {
-        headers:{
-            "Content-type": "application/json",
-            "Authorization": "Bearer " + token
-        }
+            if (users.email) {
+              const columEdit = document.createElement("td");
+              const buttonEdit = document.createElement("button");
+              buttonEdit.innerHTML = "Editar";
+              tableRow.appendChild(columEdit);
+              columEdit.appendChild(buttonEdit);
+              buttonEdit.onclick = ()=>{
+                location.href = "/users/edit/" + users._id;
+              }
+              
+            }
 
-    }).then(res =>{     
-        if(res.ok) {
-            res.json().then(json =>
-                json.map(users => {
-                    const li = document.createElement("li");
-                    if (users.email){
-                        li.innerText = users.username +" ( " + users.email + ")";
-                    }else {
-                        li.innerText = users.username; 
-                    }
-            
-                    document.getElementById("list").appendChild(li);
-                })
-            )
-        }
-    })
+            if (users.email) {
+              const columDelete = document.createElement("td");
+              const buttonDelete = document.createElement("button");
+              buttonDelete.innerHTML = "Eliminar";
+              tableRow.appendChild(columDelete);
+              columDelete.appendChild(buttonDelete);
+              buttonDelete.onclick = () => {
+                fetch("api/users/" + users._id, {
+                  method: "delete",
+                  headers: {
+                    "Content-type": "application/json",
+                    Authorization: "Bearer " + token
+                  }
+                }).then(() => {
+                  location.href = "/users";
+                });
+              };
+            }
 
-</script>
-
+            document.getElementById("myTable").appendChild(tableRow);
+          })
+        );
+      }
+    });
+  </script>
 </html>

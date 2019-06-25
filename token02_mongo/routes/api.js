@@ -21,11 +21,11 @@ router.get('/users', (req, res) => {
 
         let query;
         if (payload.admin == true) {
-            query = global.dbo.collection("users").find({}, { projection: { _id: 0, username: 1, email: 1 } });
+            query = global.dbo.collection("users").find({}, { projection: { _id: 1, username: 1, email: 1 } });
             //si es admin, hacemos consulta a mongo, a tabla users, me muestre todo con las restricciones que le digo
             //hay que añadir el projection para que funcione la consulta
         } else {
-            query = global.dbo.collection("users").find({}, { projection: { _id: 0, username: 1 } });
+            query = global.dbo.collection("users").find({}, { projection: { _id: 1, username: 1 } });
             //si no, que me muestre solo el username
         }
 
@@ -76,14 +76,16 @@ router.post('/auth', function (req, res) {
         if (documents.length > 0) {
             var token = jwt.sign(
                 {
+                    _id: documents[0]._id,
                     username: documents[0].username,
                     admin: documents[0].admin ? true : false
+                    
                 },
                 "mysecret",
                 {
                     expiresIn: 3600
                 }
-            );
+            ); console.log (token)
             res.send(token);
         } else {
             res.status(400).send("Invalid credentials");
