@@ -1,0 +1,47 @@
+<%include _header.ejs%>
+
+    <div class="container">
+        <div class="form-group">
+            <h3>username</h3>
+            <input type="text" name="username" id="username" value="">
+            <h3>email</h3>
+            <input type="text" name="email" id="email" value="">
+            <h3>password</h3>
+            <input type="password" name="password" id="password" value="">
+
+        </div>
+        <input type="button" value="registrarse" onclick="create()">
+
+    </div>
+    </div>
+
+ <script>
+      function create(){
+      const usernameValue = document.getElementById("username").value;
+      const emailValue = document.getElementById("email").value;
+      const passwordValue = document.getElementById("password").value; 
+      
+       fetch("/api/users/", {
+        method: "post",
+        headers: {
+          "Content-type": "application/json"
+           },
+        body: JSON.stringify({ username: usernameValue, email:emailValue, password: passwordValue })
+          
+      }).then(res =>{
+        if (res.ok){
+            res.text().then(text => {
+            localStorage.setItem("token", text);
+            location.href= "/travels"; 
+            })
+             
+      } else{
+        res.send ("error");
+      }
+    })
+  }
+    
+  
+</script>
+
+<%include _footer.ejs%>

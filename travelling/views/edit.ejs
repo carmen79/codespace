@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-group">
+            <h2>Puedes modificar los siguientes datos</h2>
+            <h3>username</h3>
+            <input type="text" name="username" id="username" value="">
+            <h3>email</h3>
+            <input type="text" name="email" id="email" value="">
+            <h3>password</h3>
+            <input type="password" name="password" id="password" value="">
+            
+
+        </div>
+        <input type="button" value="Aplicar" onclick="edit()">
+
+    </div>
+    </div>
+
+</body>
+<script>
+    //1.//desde aqui enviamos una petición Fecht /users/:id,
+    // para que me devuelva los datos de la persona a la 
+    //que corresponda ese id. Estos datos que me devuelva los tengo que pintar
+    //en el formulario para que aparezcan en pantalla
+
+    const id = location.pathname.split(["/"]).slice(-1)[0];
+    const token = localStorage.getItem("token");
+
+    fetch ("/api/users/" + id, {
+         method: "get",
+         headers: {
+              "Content-type": "application/json",
+           Authorization: "Bearer " + token
+           }
+       }).then(res => {
+           if (res.ok){
+           res.json().then(json =>{
+             // Coge los datos que devuelve y rellena los campos del formulario
+             
+            console.log("User name:" + json.username);
+            console.log("User email:" + json.email);
+            document.getElementById("username").value = json.username;
+            document.getElementById("email").value = json.email;
+           });
+         }
+       });
+      function edit(){
+      const usernameValue = document.getElementById("username").value;
+      const emailValue = document.getElementById("email").value;
+      const passwordValue = document.getElementById("password").value; 
+      
+       fetch("/api/users/" + id, {
+        method: "put",
+        headers: {
+          "Content-type": "application/json",
+           Authorization: "Bearer " + token
+           },
+        body: JSON.stringify({ username: usernameValue, email:emailValue, password: passwordValue })
+          
+      }).then(res =>{
+        if (res.ok){
+          location.href= "/users";    
+      } else{
+        res.send ("error");
+      }
+    })
+  }
+      
+    
+    //2. enviamos otra petición Fecht tipo put a api/users cogiendo los 
+    //datos que entren por los inputs y y modifique (que es lo que hace el
+    //router.put(/user/id)). Esos nuevos datos que se han guardado en la bbdd
+    //me los devuelve y se tienen que pintar en la vista de users.
+
+
+
+</script>
+
+</html>
