@@ -94,29 +94,35 @@ router.post('/auth', function (req, res) {
 });
 
 router.post('/users', function (req, res) {
-    const token = req.headers.authorization.replace("Bearer ", "");
+  
     const newUser = req.body;
 
-    try {
-        const payload = jwt.verify(token, "mysecret");
-        if (payload.admin) {
+      try {
             global.dbo.collection("users").insertOne({
                 username: newUser.username,
                 password: md5(newUser.password),
-                admin: newUser.admin,
+                admin: false,
                 email: newUser.email
 
             }, (error, result) => {// tine que tener un callback (sera error y result)
                 if (error) throw error;
-                res.send(result.ops[0])
+                var token = jwt.sign(
+                    {
+                        username: newUser.username,
+                        admin: newUser.admin ? true : false
+                        
+                    },
+                    "mysecret",
+                    {
+                        expiresIn: 3600
+                    }
+                ); console.log (token)
+                res.send(token);            
             });
-        } else {
-            res.status(403).send("Forbidden. You are not an admin.")
-        }
 
     } catch (_err) {
         console.log(_err);
-        res.status(401).send("Sorry, you don't have permission");
+        res.status(401).send("an error has occurd");
     }
 });
 
