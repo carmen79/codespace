@@ -39,6 +39,25 @@
     // para que me devuelva los datos de la persona a la 
     //que corresponda ese id. Estos datos que me devuelva los tengo que pintar
     //en el formulario para que aparezcan en pantalla
+
+    const id = location.pathname.split(["/"]).slice(-1)[0];
+    const token = localStorage.getItem("token");
+
+    fetch ("/api/users/" + id, {
+                  method: "get",
+                  headers: {
+                    "Content-type": "application/json",
+                    Authorization: "Bearer " + token
+                  }
+                }).then(res => {
+                  if (res.ok){
+                    res.json().then(json =>{
+                        json.
+                        console.log("JSON:::::" + json);
+                    });
+                      // Coge los datos que devuelve y rellena los campos del formulario
+                  }
+                });
     
     //2. enviamos otra petición Fecht tipo post a Api/users cogiendo los 
     //datos que entren por los inputs y y modifique (que es lo que hace el
