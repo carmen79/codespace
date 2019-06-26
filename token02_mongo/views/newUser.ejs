@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-group">
+            <h3>username</h3>
+            <input type="text" name="username" id="username" value="">
+            <h3>email</h3>
+            <input type="text" name="email" id="email" value="">
+            <h3>password</h3>
+            <input type="password" name="password" id="password" value="">
+
+        </div>
+        <input type="button" value="registrarse" onclick="">
+
+    </div>
+    </div>
+
+</body>
+<!-- <script>
+    function getToken() {
+        const usernameValue = document.getElementById("username").value;
+        const passwordValue = document.getElementById("password").value;
+
+        fetch('api/auth', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username: usernameValue, password: passwordValue })
+        })
+            .then(res => {
+                if (res.ok) {
+                    res.text().then(text => {
+                        localStorage.setItem("token", text);
+                        location.href= "/users";
+                    });
+                }
+            });
+    }
+
+</script> -->
+
+</html>

@@ -23,8 +23,12 @@
             <input type="text" name="username" id="username" value="">
             <h3>email</h3>
             <input type="text" name="email" id="email" value="">
+            <h3>password</h3>
+            <input type="password" name="password" id="password" value="">
+            
+
         </div>
-        <input type="button" value="Aplicar" onclick="">
+        <input type="button" value="Aplicar" onclick="edit()">
 
     </div>
     </div>
@@ -40,27 +44,50 @@
     const token = localStorage.getItem("token");
 
     fetch ("/api/users/" + id, {
-                  method: "get",
-                  headers: {
-                    "Content-type": "application/json",
-                    Authorization: "Bearer " + token
-                  }
-                }).then(res => {
-                  if (res.ok){
-                    res.json().then(json =>{
-                      // Coge los datos que devuelve y rellena los campos del formulario
-                      // Usar document.getElementById("xxxxx").value = json.xxxx;
-                      console.log("User name:" + json.username);
-                          console.log("User email:" + json.email);
-                          document.getElementById("username").value = json.username;
-                          document.getElementById("email").value = json.email;
-                    });
-                  }
-                });
+         method: "get",
+         headers: {
+              "Content-type": "application/json",
+           Authorization: "Bearer " + token
+           }
+       }).then(res => {
+           if (res.ok){
+           res.json().then(json =>{
+             // Coge los datos que devuelve y rellena los campos del formulario
+             
+            console.log("User name:" + json.username);
+            console.log("User email:" + json.email);
+            document.getElementById("username").value = json.username;
+            document.getElementById("email").value = json.email;
+           });
+         }
+       });
+      function edit(){
+      const usernameValue = document.getElementById("username").value;
+      const emailValue = document.getElementById("email").value;
+      const passwordValue = document.getElementById("password").value; 
+      
+       fetch("/api/users/" + id, {
+        method: "put",
+        headers: {
+          "Content-type": "application/json",
+           Authorization: "Bearer " + token
+           },
+        body: JSON.stringify({ username: usernameValue, email:emailValue, password: passwordValue })
+          
+      }).then(res =>{
+        if (res.ok){
+          location.href= "/users";    
+      } else{
+        res.send ("error");
+      }
+    })
+  }
+      
     
-    //2. enviamos otra petición Fecht tipo post a Api/users cogiendo los 
+    //2. enviamos otra petición Fecht tipo put a api/users cogiendo los 
     //datos que entren por los inputs y y modifique (que es lo que hace el
-    //router. post(/user))
+    //router.put(/user/id)). Esos nuevos datos que se han guardado en la bbdd
+    //me los devuelve y se tienen que pintar en la vista de users.
 
 
 
