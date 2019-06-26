@@ -53,7 +53,7 @@ router.get('/users/:id', (req, res) => {
         query = global.dbo.collection("users").find({ _id: mongo.ObjectId(userId) }, { projection: { username: 1, email: 1 } });
 
         query.toArray().then(documents => {
-            res.send(documents);
+            res.send(documents[0]);
         });
 
     } catch (e) {

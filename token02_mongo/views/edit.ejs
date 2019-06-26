@@ -22,11 +22,7 @@
             <h3>username</h3>
             <input type="text" name="username" id="username" value="">
             <h3>email</h3>
-            <input type="text" name="email" id="password" value="">
-            <h3>password</h3>
-            <input type="password" name="password" id="password" value="">
-
-
+            <input type="text" name="email" id="email" value="">
         </div>
         <input type="button" value="Aplicar" onclick="">
 
@@ -52,10 +48,13 @@
                 }).then(res => {
                   if (res.ok){
                     res.json().then(json =>{
-                        json.
-                        console.log("JSON:::::" + json);
-                    });
                       // Coge los datos que devuelve y rellena los campos del formulario
+                      // Usar document.getElementById("xxxxx").value = json.xxxx;
+                      console.log("User name:" + json.username);
+                          console.log("User email:" + json.email);
+                          document.getElementById("username").value = json.username;
+                          document.getElementById("email").value = json.email;
+                    });
                   }
                 });
     
