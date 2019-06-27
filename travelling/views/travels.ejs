@@ -3,12 +3,14 @@
  
 <h1 id="welcome"></h1>
     <!-- esta es la lista de usuarios -->
+     <!-- esta va a ser la lista de viajes del usuario logeado -->
     <table id="myTable" >
       <tr >
-        <th scope="col" >Nombre</th>
-        <th scope="col" >email</th>
-        <th scope="col" >Edit</th>
-        <th scope="col" >Delete</th>
+        <th scope="col" >Destino</th>
+        <th scope="col" >Inicio</th>
+        <th scope="col" >Fin</th>
+        <th scope="col" >Editar</th>
+        <th scope="col" >Eliminar</th>
       </tr>
     </table>
   
@@ -22,7 +24,8 @@
     const decoded = jwt_decode(token);
     document.getElementById("welcome").innerText="Welcome " + decoded.username + "";
     console.log(decoded);
-    fetch("api/users", {
+
+    fetch("api/travels", {
       headers: {
         "Content-type": "application/json",
         Authorization: "Bearer " + token

@@ -11,23 +11,16 @@ require("../config/mongoDb");
 //     res.send('respond with a resource');
 // });
 
-router.get('/users', (req, res) => {
+router.get('/travels', (req, res) => {
     const token = req.headers.authorization.replace("Bearer ", "");
     console.log(token);
 
     try {
         const payload = jwt.verify(token, "mysecret"); //playload nos dice si es administrador
 
-        let query;
-        if (payload.admin == true) {
-            query = global.dbo.collection("users").find({}, { projection: { _id: 1, username: 1, email: 1 } });
-            //si es admin, hacemos consulta a mongo, a tabla users, me muestre todo con las restricciones que le digo
-            //hay que añadir el projection para que funcione la consulta
-        } else {
-            query = global.dbo.collection("users").find({}, { projection: { _id: 1, username: 1 } });
-            //si no, que me muestre solo el username
-        }
-
+        query = global.dbo.collection("travels").find ({userId: payload._id}, {});
+        // este userId será el id del usuario que lo tengo que guardar en la 
+        //bbdd de Travel
         query.toArray().then(documents => {
             res.send(documents);
             // este document se refiere a un registro de la bbdd que en mongo son document
@@ -91,9 +84,8 @@ router.post('/auth', function (req, res) {
         }
     });
 });
-
+ //se queda para registrar el usuario desde el inicio
 router.post('/users', function (req, res) {
-  
     const newUser = req.body;
 
       try {
@@ -105,10 +97,11 @@ router.post('/users', function (req, res) {
 
             }, (error, result) => {// tine que tener un callback (sera error y result)
                 if (error) throw error;
-                var token = jwt.sign(
-                    {
-                        username: newUser.username,
-                        admin: newUser.admin ? true : false
+            var token = jwt.sign(
+                 {
+                   _id: result.insertedId, //el result de mongo trae el id
+                   username: newUser.username,
+                   admin: newUser.admin ? true : false
                         
                     },
                     "mysecret",
@@ -124,6 +117,7 @@ router.post('/users', function (req, res) {
         res.status(401).send("an error has occurd");
     }
 });
+
 
 router.put("/users/:id", (req, res) => {
     const token = req.headers.authorization.replace("Bearer ", "");
