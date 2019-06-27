@@ -20,6 +20,7 @@
       const destinoValue = document.getElementById("destino").value;
       const fechaInicioValue = document.getElementById("fechaInicio").value;
       const fechaFinValue = document.getElementById("fechaFin").value; 
+      const token = localStorage.getItem("token");
       
        fetch("/api/travels", {
         method: "post",
@@ -27,12 +28,11 @@
           "Content-type": "application/json",
           Authorization: "Bearer " + token
            },
-        body: JSON.stringify({ destino: destinoValue, fechaInicio: fechaInicioValue, fechaFin:fechaFinValue   })
+        body: JSON.stringify({destino: destinoValue, fechaInicio: fechaInicioValue, fechaFin:fechaFinValue })
           
       }).then(res =>{
         if (res.ok){
             res.text().then(text => {
-            localStorage.setItem("token", text);
             location.href= "/travels"; 
             })
              

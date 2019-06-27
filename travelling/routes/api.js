@@ -122,6 +122,7 @@ router.post('/users', function (req, res) {
 router.post('/travels', function (req, res) {
     const newtravel = req.body;
     const payload = jwt.verify(token, "mysecret"); 
+    
 
       try {
             global.dbo.collection("travels").insertOne({
@@ -130,11 +131,12 @@ router.post('/travels', function (req, res) {
               fechaFin: newtravel.fechaFin,
               userId: payload._id
              
-
             }, (error, result) => {// tine que tener un callback (sera error y result)
                 if (error) throw error;
-                       
             });
+            res.send("ok");
+                     
+          
 
     } catch (_err) {
         console.log(_err);
