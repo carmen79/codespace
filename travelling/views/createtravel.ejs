@@ -1,0 +1,48 @@
+<%include _header.ejs%>
+
+    <div class="container">
+        <div class="form-group">
+            <h3>Destino</h3>
+            <input type="text" name="destino" id="destino" value="">
+            <h3>Fecha Inicio</h3>
+            <input type="text" name="fechaInicio" id="fechaInicio" value="">
+            <h3>Fecha Fin</h3>
+            <input type="text" name="fechaFin" id="fechaFin" value="">
+            
+        </div>
+        <input type="button" value="Crear Viaje" onclick="create()">
+
+    </div>
+    </div>
+
+ <script>
+      function create(){
+      const destinoValue = document.getElementById("destino").value;
+      const fechaInicioValue = document.getElementById("fechaInicio").value;
+      const fechaFinValue = document.getElementById("fechaFin").value; 
+      
+       fetch("/api/travels", {
+        method: "post",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + token
+           },
+        body: JSON.stringify({ destino: destinoValue, fechaInicio: fechaInicioValue, fechaFin:fechaFinValue   })
+          
+      }).then(res =>{
+        if (res.ok){
+            res.text().then(text => {
+            localStorage.setItem("token", text);
+            location.href= "/travels"; 
+            })
+             
+      } else{
+        res.send ("error");
+      }
+    })
+  }
+    
+  
+</script>
+
+<%include _footer.ejs%>

@@ -16,7 +16,7 @@ router.get('/travels', (req, res) => {
     console.log(token);
 
     try {
-        const payload = jwt.verify(token, "mysecret"); //playload nos dice si es administrador
+        const payload = jwt.verify(token, "mysecret"); 
 
         query = global.dbo.collection("travels").find ({userId: payload._id}, {});
         // este userId será el id del usuario que lo tengo que guardar en la 
@@ -85,6 +85,7 @@ router.post('/auth', function (req, res) {
     });
 });
  //se queda para registrar el usuario desde el inicio
+ //AQUI SE CREA NUEVO USUARIO QUE SE REGISTRE
 router.post('/users', function (req, res) {
     const newUser = req.body;
 
@@ -117,6 +118,30 @@ router.post('/users', function (req, res) {
         res.status(401).send("an error has occurd");
     }
 });
+//AQUI CREAMOS NUEVO VIAJE CON LOS DATOS QUE VIENEN EN EL BODY DE CREATETRAVEL.EJS
+router.post('/travels', function (req, res) {
+    const newtravel = req.body;
+    const payload = jwt.verify(token, "mysecret"); 
+
+      try {
+            global.dbo.collection("travels").insertOne({
+              destino: newtravel.destino,
+              fechaInicio: newtravel.fechaInicio,
+              fechaFin: newtravel.fechaFin,
+              userId: payload._id
+             
+
+            }, (error, result) => {// tine que tener un callback (sera error y result)
+                if (error) throw error;
+                       
+            });
+
+    } catch (_err) {
+        console.log(_err);
+        res.status(401).send("an error has occurd");
+    }
+});
+
 
 
 router.put("/users/:id", (req, res) => {

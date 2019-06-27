@@ -22,6 +22,9 @@ router.get('/travels', function (req, res, next) {
     res.render('travels');
 });
 
+router.get('/createtravel', function (req, res, next) {
+    res.render('createtravel');
+});
 router.get('/users/edit/:id', function (req, res, next){
     res.render('edit');
 });

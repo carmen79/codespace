@@ -1,8 +1,8 @@
 
 <%include _header.ejs%>
  
-<h1 id="welcome"></h1>
-    <!-- esta es la lista de usuarios -->
+<h3 id="welcome"></h3>
+
      <!-- esta va a ser la lista de viajes del usuario logeado -->
     <table id="myTable" >
       <tr >
@@ -13,7 +13,12 @@
         <th scope="col" >Eliminar</th>
       </tr>
     </table>
-  
+    <div>
+      <a href="/createtravel">
+        <input type="button" value="Crear Viaje" >
+      </a>
+    </div>
+
 
   <script>
 
@@ -35,23 +40,25 @@
         res.json().then(json =>
           json.map(users => {
             const tableRow = document.createElement("tr");
-            const columName = document.createElement("td");
+            const columDestino = document.createElement("td");
             //asignamos un texto
-            columName.innerText = users.username;
+            columDestino.innerText = travels.destino;
             //añadimos la columna a la fila
-            tableRow.appendChild(columName);
+            tableRow.appendChild(columDestino);
 
-            const columEmail = document.createElement("td");
+            const columFechaInicio = document.createElement("td");
             //asignamos un texto
-            if (users.email) {
-              columEmail.innerText = users.email;
-            } else {
-              columEmail.innerText = "";
-            }
+            columFechaInicio.innerText = travels.columFechaInicio;
             //añadimos la columna a la fila
-            tableRow.appendChild(columEmail);
+            tableRow.appendChild(columFechaInicio);
 
-            if (users.email) {
+            const columFechaFin = document.createElement("td");
+            //asignamos un texto
+            columFechaFin.innerText = travels.columFechaFin;
+            //añadimos la columna a la fila
+            tableRow.appendChild(columFechaFin);
+
+           
               const columEdit = document.createElement("td");
               const buttonEdit = document.createElement("button");
               buttonEdit.innerHTML = "Editar";
@@ -61,32 +68,33 @@
                 location.href = "/users/edit/" + users._id;
               }
               
-            }
+            
 
-            if (users.email) {
-              const columDelete = document.createElement("td");
-              const buttonDelete = document.createElement("button");
-              buttonDelete.innerHTML = "Eliminar";
-              tableRow.appendChild(columDelete);
-              columDelete.appendChild(buttonDelete);
-              buttonDelete.onclick = () => {
-                fetch("api/users/" + users._id, {
-                  method: "delete",
-                  headers: {
-                    "Content-type": "application/json",
-                    Authorization: "Bearer " + token
-                  }
-                }).then(() => {
-                  location.href = "/users";
-                });
-              };
-            }
+            // if (users.email) {
+            //   const columDelete = document.createElement("td");
+            //   const buttonDelete = document.createElement("button");
+            //   buttonDelete.innerHTML = "Eliminar";
+            //   tableRow.appendChild(columDelete);
+            //   columDelete.appendChild(buttonDelete);
+            //   buttonDelete.onclick = () => {
+            //     fetch("api/users/" + users._id, {
+            //       method: "delete",
+            //       headers: {
+            //         "Content-type": "application/json",
+            //         Authorization: "Bearer " + token
+            //       }
+            //     }).then(() => {
+            //       location.href = "/users";
+            //     });
+            //   };
+            // }
 
             document.getElementById("myTable").appendChild(tableRow);
           })
         );
       }
     });
+
   </script>
 
 <%include _footer.ejs%>
