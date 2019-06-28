@@ -121,11 +121,12 @@ router.post('/users', function (req, res) {
 //AQUI CREAMOS NUEVO VIAJE CON LOS DATOS QUE VIENEN EN EL BODY DE CREATETRAVEL.EJS
 router.post('/travels', function (req, res) {
     const newtravel = req.body;
-    const payload = jwt.verify(token, "mysecret"); 
-    
+    const token = req.headers.authorization.replace("Bearer ", "");
+
 
       try {
-            global.dbo.collection("travels").insertOne({
+        const payload = jwt.verify(token, "mysecret"); 
+        global.dbo.collection("travels").insertOne({
               destino: newtravel.destino,
               fechaInicio: newtravel.fechaInicio,
               fechaFin: newtravel.fechaFin,
@@ -133,11 +134,8 @@ router.post('/travels', function (req, res) {
              
             }, (error, result) => {// tine que tener un callback (sera error y result)
                 if (error) throw error;
+                res.send("ok");
             });
-            res.send("ok");
-                     
-          
-
     } catch (_err) {
         console.log(_err);
         res.status(401).send("an error has occurd");

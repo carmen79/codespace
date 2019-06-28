@@ -5,9 +5,9 @@
             <h3>Destino</h3>
             <input type="text" name="destino" id="destino" value="">
             <h3>Fecha Inicio</h3>
-            <input type="text" name="fechaInicio" id="fechaInicio" value="">
+            <input type="date" class="datepicker" name="fechaInicio" id="fechaInicio" value="">
             <h3>Fecha Fin</h3>
-            <input type="text" name="fechaFin" id="fechaFin" value="">
+            <input type="date" class="datepicker"  name="fechaFin" id="fechaFin" value="">
             
         </div>
         <input type="button" value="Crear Viaje" onclick="create()">
@@ -16,7 +16,13 @@
     </div>
 
  <script>
+     document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.datepicker');
+      var instances = M.Datepicker.init(elems, options);
+      });
+
       function create(){
+        const token = localStorage.getItem("token");
       const destinoValue = document.getElementById("destino").value;
       const fechaInicioValue = document.getElementById("fechaInicio").value;
       const fechaFinValue = document.getElementById("fechaFin").value; 
