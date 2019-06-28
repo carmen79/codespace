@@ -1,19 +1,34 @@
 <%include _header.ejs%>
-
+<h5 class="card-panel teal lighten-2" style="color: white">Modifica o añade datos de tu viaje</h5>
     <div class="container">
         <div class="form-group">
-            <h3>Destino</h3>
-            <input type="text" name="destino" id="destino" value="">
-            <h3>Fecha Inicio</h3>
-            <input type="date" class="datepicker" name="fechaInicio" id="fechaInicio" value="">
-            <h3>Fecha Fin</h3>
-            <input type="date" class="datepicker" name="fechaFin" id="fechaFin" value="">
-            <h3>Describe tu viaje</h3>
-            <input type="text" name="descripcion" id="descripcion" value="">
-
-        </div>
-        <input type="button" value="Aplicar" onclick="edit()">
-
+            <div class="input-field col s12">
+                <h5>Destino</h5>
+                <input id="destino" type="text" class="validate">
+                <!-- <label for="destino">Destino</label> -->
+              </div>
+              <h5>Fecha Inicio</h5>
+              <div class="input-field col s12">
+                <input id="fechaInicio" type="date" class="datepicker">
+                <!-- <label for="destino">Fecha de Inicio</label> -->
+              </div>
+              <h5>Fecha Fin</h5>
+              <div class="input-field col s12">
+                <input id="fechaFin" type="date" class="datepicker">
+                <!-- <label for="destino">Fecha de Fin</label> -->
+              </div>
+              <h5>Descripción</h5>
+              <div class="input-field col s12">
+                <input id="descripcion" type="text" class="validate">
+                <!-- <label for="destino">Describe tu viaje</label> -->
+              </div>                
+              <div class="flex-container">
+                  <div>
+                    <a class="waves-effect waves-light btn" href=" javascript:edit()">
+                      <i class="material-icons left">add</i>Aplicar Cambios</a>
+                    </a>
+                  </div>
+             </div>
     </div>
     </div>
 

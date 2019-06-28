@@ -1,7 +1,8 @@
 <%include _header.ejs%>
 <div>
-  <h4 class="card-panel teal lighten-2" style="color: white" id="welcome"></h4>
-
+  <h5 class="card-panel teal lighten-2" style="color: white" id="welcome"></h5>
+  <br>
+  <br>
   <!-- esta va a ser la lista de viajes del usuario logeado -->
   <table id="myTable" hidden="true">
     <tr>
@@ -28,6 +29,7 @@
 
   const token = localStorage.getItem("token");
   const decoded = jwt_decode(token);
+  
   document.getElementById("welcome").innerText = "Bienvenido/a a esta comunidad viajera "
     + decoded.username + ". ¿Quieres dar de alta un viaje?";
   console.log(decoded);
@@ -95,8 +97,8 @@
 
           document.getElementById("myTable").appendChild(tableRow);
           document.getElementById("myTable").hidden = false;
-          document.getElementById("welcome").innerText = "Hola "
-            + decoded.username + "! Aqui tienes todos tus viajes";
+          document.getElementById("welcome").innerText = " "
+            + decoded.username + " , aquí puedes ver tus viajes";
         })
       )
     }

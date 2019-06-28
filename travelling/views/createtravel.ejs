@@ -1,23 +1,31 @@
 <%include _header.ejs%>
 
-<h4 class="card-panel teal lighten-2" style="color: white">Introduce los datos de tu nuevo viaje!</h4>
+<h5 class="card-panel teal lighten-2" style="color: white">Introduce los datos de tu nuevo viaje!</h5>
 <div class="container">
   <div class="form-group">
     <div class="input-field col s12">
       <input id="destino" type="text" class="validate">
-      <label for="destino">Destino</label>
+      <label for="destino" style="font-size: 20px">Destino</label>
     </div>
-    <h3>Fecha Inicio</h3>
-    <input type="date" class="datepicker" name="fechaInicio" id="fechaInicio" value="">
-    <h3>Fecha Fin</h3>
-    <input type="date" class="datepicker" name="fechaFin" id="fechaFin" value="">
-    <h3>Describe tu viaje</h3>
-    <input type="text" name="descripcion" id="descripcion" value="">
-  </div>
+    <div class="input-field col s12">
+      <input id="fechaInicio" type="date" class="datepicker">
+      <label for="destino"style="font-size: 20px">Fecha de Inicio</label>
+    </div>
+
+    <div class="input-field col s12">
+      <input id="fechaFin" type="date" class="datepicker">
+      <label for="destino" style="font-size: 20px">Fecha de Fin</label>
+    </div>
+
+    <div class="input-field col s12">
+      <input id="descripcion" type="text" class="validate">
+      <label for="destino" style="font-size: 20px">Describe tu viaje</label>
+    </div>
+
 
   <div class="flex-container">
     <div>
-      <a class="waves-effect waves-light btn" href="javascript:create()">
+      <a class="waves-effect waves-light btn" href=" javascript:create()">
         <i class="material-icons left">add</i>Crear viaje</a>
       </a>
     </div>
