@@ -1,27 +1,26 @@
 <%include _header.ejs%>
+<div>
+  <h4 class="card-panel teal lighten-2" style="color: white" id="welcome"></h4>
 
-<h4 class="card-panel teal lighten-2" style="color: white" id="welcome"></h4>
-
-<!-- esta va a ser la lista de viajes del usuario logeado -->
-<table id="myTable" hidden="true">
-  <tr>
-    <th scope="col">Destino</th>
-    <th scope="col">Inicio</th>
-    <th scope="col">Fin</th>
-    <th scope="col">Descripción</th>
-    <th scope="col">Editar</th>
-    <th scope="col">Eliminar</th>
-  </tr>
-</table>
-<div class="flex-container">
-  <div>
-    <a class="waves-effect waves-light btn" href="/createtravel">
-      <i class="material-icons left">add</i>Crear viaje</a>
-    </a>
+  <!-- esta va a ser la lista de viajes del usuario logeado -->
+  <table id="myTable" hidden="true">
+    <tr>
+      <th scope="col">Destino</th>
+      <th scope="col">Inicio</th>
+      <th scope="col">Fin</th>
+      <th scope="col">Descripción</th>
+      <th scope="col">Editar</th>
+      <th scope="col">Eliminar</th>
+    </tr>
+  </table>
+  <div class="flex-container">
+    <div>
+      <a class="waves-effect waves-light btn" href="/createtravel">
+        <i class="material-icons left">add</i>Crear viaje</a>
+      </a>
+    </div>
   </div>
 </div>
-
-
 <script>
 
   //cambiar user por travel
