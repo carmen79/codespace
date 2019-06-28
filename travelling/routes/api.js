@@ -31,18 +31,18 @@ router.get('/travels', (req, res) => {
 
 });
 
-//en este endpoint tenemos que hacer que cuando pongas en la url un id te muestre
-// el nombre del usuario al que pertenece
+// esto es el primer paso del edit coger de la bbdd 
+//los datos del viaje con un id concreto
 
-router.get('/users/:id', (req, res) => {
-    const userId = req.params.id;
+router.get('/travels/:id', (req, res) => {
+    const travelsId = req.params.id;
     const token = req.headers.authorization.replace("Bearer ", "");
     console.log(token);
 
     try {
         const payload = jwt.verify(token, "mysecret");
 
-        query = global.dbo.collection("users").find({ _id: mongo.ObjectId(userId) }, { projection: { username: 1, email: 1 } });
+        query = global.dbo.collection("travels").find({ _id: mongo.ObjectId(travelsId) });
 
         query.toArray().then(documents => {
             res.send(documents[0]);
@@ -144,53 +144,43 @@ router.post('/travels', function (req, res) {
 
 
 
-router.put("/users/:id", (req, res) => {
+router.put("/travels/:id", (req, res) => {
     const token = req.headers.authorization.replace("Bearer ", "");
-    const userId = req.params.id;
+    const travelsId = req.params.id;
     const data = req.body;
 
     try {
-        const payload = jwt.verify(token, "mysecret");
-        console.log(payload.admin);
-        if (payload.admin) {
-
-            global.dbo.collection("users").updateOne({ _id: mongo.ObjectId(userId) }, {
+            global.dbo.collection("travels").updateOne({ _id: mongo.ObjectId(travelsId) }, {
                 $set:
                 {
-                    username: data.username,
-                    password: md5(data.password),
-                    admin: data.admin,
-                    email: data.email
+                    destino: data.destino,
+                    fechaInicio: data.fechaInicio,
+                    fechaFin: data.fechaFin
                 }
             }, (error, result) => {
                 if (error) throw error;
                 res.send(result)
             });
-        } else {
-            res.status(403).send("Forbidden. You are not an admin.")
-        }
+        
     } catch (_err) {
         console.log(_err);
         res.status(401).send(" you don't have permission to edit");
     }
 });
 
-router.delete("/users/:id", (req, res) => {
+router.delete("/travels/:id", (req, res) => {
     const token = req.headers.authorization.replace("Bearer ", "");
-    const userId = req.params.id;
+    const travelId = req.params.id;
 
     try {
         const payload = jwt.verify(token, "mysecret");
-        if (payload.admin) {
-            global.dbo.collection("users").removeOne({ _id: mongo.ObjectId(userId)},
+   
+          global.dbo.collection("travels").removeOne({ _id: mongo.ObjectId(travelId)},
                 (error, result) => {
                     if (error) throw error;
                     res.send("deleted")
                 });
-        } else {
-            res.status(403).send("Forbidden. You are not an admin.")
-        }
-    } catch (_err) {
+        } catch (_err) {
         console.log(_err);
         res.status(401).send(" you don't have permission to delete");
     }

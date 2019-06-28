@@ -1,30 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+<%include _header.ejs%>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-
-</head>
-
-<body>
     <div class="container">
         <div class="form-group">
-            <h2>Puedes modificar los siguientes datos</h2>
-            <h3>username</h3>
-            <input type="text" name="username" id="username" value="">
-            <h3>email</h3>
-            <input type="text" name="email" id="email" value="">
-            <h3>password</h3>
-            <input type="password" name="password" id="password" value="">
+            <h3>Destino</h3>
+            <input type="text" name="destino" id="destino" value="">
+            <h3>Fecha Inicio</h3>
+            <input type="date" class="datepicker" name="fechaInicio" id="fechaInicio" value="">
+            <h3>Fecha Fin</h3>
+            <input type="date" class="datepicker" name="fechaFin" id="fechaFin" value="">
             
 
         </div>
@@ -41,42 +24,42 @@
     //en el formulario para que aparezcan en pantalla
 
     const id = location.pathname.split(["/"]).slice(-1)[0];
+    console.log (id)
     const token = localStorage.getItem("token");
 
-    fetch ("/api/users/" + id, {
+    fetch ("/api/travels/" + id, {
          method: "get",
          headers: {
-              "Content-type": "application/json",
+           "Content-type": "application/json",
            Authorization: "Bearer " + token
            }
        }).then(res => {
            if (res.ok){
            res.json().then(json =>{
-             // Coge los datos que devuelve y rellena los campos del formulario
-             
-            console.log("User name:" + json.username);
-            console.log("User email:" + json.email);
-            document.getElementById("username").value = json.username;
-            document.getElementById("email").value = json.email;
+            console.log(json.destino);
+            document.getElementById("destino").value = json.destino;
+            document.getElementById("fechaInicio").value = json.fechaInicio;
+            document.getElementById("fechaFin").value = json.fechaFin;
            });
          }
        });
+
       function edit(){
-      const usernameValue = document.getElementById("username").value;
-      const emailValue = document.getElementById("email").value;
-      const passwordValue = document.getElementById("password").value; 
+      const destinoValue = document.getElementById("destino").value;
+      const fechaInicioValue = document.getElementById("fechaInicio").value;
+      const fechaFinValue = document.getElementById("fechaFin").value; 
       
-       fetch("/api/users/" + id, {
+       fetch("/api/travels/" + id, {
         method: "put",
         headers: {
           "Content-type": "application/json",
            Authorization: "Bearer " + token
            },
-        body: JSON.stringify({ username: usernameValue, email:emailValue, password: passwordValue })
+        body: JSON.stringify({ destino: destinoValue, fechaInicio:fechaInicioValue, fechaFin: fechaFinValue })
           
       }).then(res =>{
         if (res.ok){
-          location.href= "/users";    
+          location.href= "/travels";    
       } else{
         res.send ("error");
       }
@@ -93,4 +76,5 @@
 
 </script>
 
-</html>
+
+<%include _footer.ejs%>

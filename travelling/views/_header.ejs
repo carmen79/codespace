@@ -1,25 +1,176 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="/stylesheets/materialize.css"  
-      media="screen,projection"/> 
-    <script src="/js/jwt-decode.min.js"></script>
 
-  </head>
-  <body>
-      <div>
-          <nav>
-            <div class="nav-wrapper">
-              <a href="/" class="brand-logo">Travelling</a>
-              <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="/newuser">registrarse</a></li>
-                <li><a href="/login">identificarse</a></li>
-                <li><a href="">cerrar sesion</a></li>
-              </ul>
-            </div>
-          </nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <!--Import styles -->
+  <link type="text/css" rel="stylesheet" href="/stylesheets/materialize.css" media="screen,projection" />
+  <link type="text/css" rel="stylesheet" href="/stylesheets/modal.css" />
+  <link type="text/css" rel="stylesheet" href="/stylesheets/style.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <script src="/js/jwt-decode.min.js"></script>
+
+</head>
+
+<body>
+  <div>
+    <!-- ESTO ES EL NAVBAR -->
+    <nav>
+      <div class="nav-wrapper">
+        <a href="/" class="brand-logo">Travelling</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li id="newUserLi"><a href="#modalNewUser">Registrarse</a></li>
+          <li id="nameLi"><a href="/travels">
+              <i class='small material-icons'>account_circle</i></a></li>
+          <li id="logoutLi"><a href="javascript:logout()">Cerrar Sesión</a></li>
+          <li id="loginLi"><a href="#modalLogin">Identificarse</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="modalLogin" class="modalWindow">
+    <div>
+
+      <div class="card-panel teal lighten-2">
+        <h5 style="color: white">Introduce tus credenciales</h5>
+      </div>
+
+      <div style="margin-top:50px; margin-left: 20px">
+        <div class="form-group">
+          <div class="input-field col s12">
+            <input id="username" type="text" class="validate">
+            <label for="username">Usuario</label>
+          </div>
+          <div class="input-field col s12">
+            <input id="password" type="password" class="validate">
+            <label for="password">Password</label>
+          </div>
         </div>
+      </div>
+
+      <div style="margin-left: 20%;margin-bottom: 100px">
+        <a href=" javascript:getToken()" class="waves-effect waves-light btn">
+          <i class="material-icons left">account_circle</i>Identificarse</a>
+        <a href="#close" class="waves-effect waves-light btn">
+          <i class="material-icons left">cancel</i>Cancelar</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalNewUser" class="modalWindow">
+    <div>
+
+      <div class="card-panel teal lighten-2">
+        <h5 style="color: white">Regístrate en nuestra web</h5>
+      </div>
+
+      <div style="margin-top:50px; margin-left: 20px">
+        <div class="form-group">
+          <div class="input-field col s12">
+            <input id="newUsername" type="text" class="validate">
+            <label for="newUsername">Usuario</label>
+          </div>
+          <div class="input-field col s12">
+            <input id="newEmail" type="email" class="validate">
+            <label for="newEmail">Email</label>
+          </div>
+          <div class="input-field col s12">
+            <input id="newPassword" type="password" class="validate">
+            <label for="newPassword">Password</label>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-left: 20%;margin-bottom: 100px">
+        <a href=" javascript:create()" class="waves-effect waves-light btn">
+          <i class="material-icons left">group_add</i>Registrarse</a>
+        <a href="#close" class="waves-effect waves-light btn">
+          <i class="material-icons left">cancel</i>Cancelar</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    // Mostrar botones de nav bar en funcion
+    // de si existe el token o no
+    let loginLi = document.getElementById("loginLi");
+    let logoutLi = document.getElementById("logoutLi");
+    let nameLi = document.getElementById("nameLi");
+    let newUserLi = document.getElementById("newUserLi");
+    if (localStorage.getItem("token") != null) {
+      loginLi.hidden = true;
+      nameLi.hidden = false;
+      newUserLi.hidden = true;
+      logoutLi.hidden = false;
+    } else {
+      loginLi.hidden = false;
+      nameLi.hidden = true;
+      newUserLi.hidden = false;
+      logoutLi.hidden = true;
+    }
+
+    function getToken() {
+      const usernameValue = document.getElementById("username").value;
+      const passwordValue = document.getElementById("password").value;
+
+      fetch('/api/auth', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username: usernameValue, password: passwordValue })
+      })
+        .then(res => {
+          if (res.ok) {
+            res.text().then(text => {
+              localStorage.setItem("token", text);
+              location.href = "/travels";
+            });
+          }
+        });
+    }
+
+    // Simplemente, eliminamos el token del local storage
+    // y vamos a la pagina de inicio
+    function logout() {
+      if (confirm("¿Deseas cerrar la sesión?")) {
+        localStorage.removeItem("token");
+        location.href = "/";
+      }
+    }
+
+    function create() {
+      const usernameValue = document.getElementById("newUsername").value;
+      const emailValue = document.getElementById("newEmail").value;
+      const passwordValue = document.getElementById("newPassword").value;
+
+      fetch("/api/users/", {
+        method: "post",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({ username: usernameValue, email: emailValue, password: passwordValue })
+
+      }).then(res => {
+        if (res.ok) {
+          res.text().then(text => {
+            localStorage.setItem("token", text);
+            location.href = "/travels";
+          })
+
+        } else {
+          res.send("error");
+        }
+      })
+    }
+
+
+  </script>

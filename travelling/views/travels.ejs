@@ -1,100 +1,99 @@
-
 <%include _header.ejs%>
- 
+
 <h3 id="welcome"></h3>
 
-     <!-- esta va a ser la lista de viajes del usuario logeado -->
-    <table id="myTable" >
-      <tr >
-        <th scope="col" >Destino</th>
-        <th scope="col" >Inicio</th>
-        <th scope="col" >Fin</th>
-        <th scope="col" >Editar</th>
-        <th scope="col" >Eliminar</th>
-      </tr>
-    </table>
-    <div>
-      <a href="/createtravel">
-        <input type="button" value="Crear Viaje" >
-      </a>
-    </div>
+<!-- esta va a ser la lista de viajes del usuario logeado -->
+<table id="myTable" hidden="true">
+  <tr>
+    <th scope="col">Destino</th>
+    <th scope="col">Inicio</th>
+    <th scope="col">Fin</th>
+    <th scope="col">Editar</th>
+    <th scope="col">Eliminar</th>
+  </tr>
+</table>
+<div>
+  <a href="/createtravel">
+    <input type="button" class="" value="Crear Viaje">
+  </a>
+</div>
 
 
-  <script>
+<script>
 
-    //cambiar user por travel
-    // Tengo que hacer una api para travel
-    
-    const token = localStorage.getItem("token");
-    const decoded = jwt_decode(token);
-    document.getElementById("welcome").innerText="Welcome " + decoded.username + "";
-    console.log(decoded);
+  //cambiar user por travel
+  // Tengo que hacer una api para travel
 
-    fetch("api/travels", {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: "Bearer " + token
-      }
-    }).then(res => {
-      if (res.ok) {
-        res.json().then(json =>
-          json.map(users => {
-            const tableRow = document.createElement("tr");
-            const columDestino = document.createElement("td");
-            //asignamos un texto
-            columDestino.innerText = travels.destino;
-            //añadimos la columna a la fila
-            tableRow.appendChild(columDestino);
+  const token = localStorage.getItem("token");
+  const decoded = jwt_decode(token);
+  document.getElementById("welcome").innerText = "Welcome " + decoded.username + "";
+  console.log(decoded);
 
-            const columFechaInicio = document.createElement("td");
-            //asignamos un texto
-            columFechaInicio.innerText = travels.columFechaInicio;
-            //añadimos la columna a la fila
-            tableRow.appendChild(columFechaInicio);
+  fetch("api/travels", {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer " + token
+    }
+  }).then(res => {
+    if (res.ok) {
+      res.json().then(json =>
+        json.map(travel => {
+          console.log(travel);
+          const tableRow = document.createElement("tr");
+          const columDestino = document.createElement("td");
+          //asignamos un texto
+          columDestino.innerText = travel.destino;
+          //añadimos la columna a la fila
+          tableRow.appendChild(columDestino);
 
-            const columFechaFin = document.createElement("td");
-            //asignamos un texto
-            columFechaFin.innerText = travels.columFechaFin;
-            //añadimos la columna a la fila
-            tableRow.appendChild(columFechaFin);
+          const columFechaInicio = document.createElement("td");
+          //asignamos un texto
+          columFechaInicio.innerText = travel.fechaInicio;
+          //añadimos la columna a la fila
+          tableRow.appendChild(columFechaInicio);
 
-           
-              const columEdit = document.createElement("td");
-              const buttonEdit = document.createElement("button");
-              buttonEdit.innerHTML = "Editar";
-              tableRow.appendChild(columEdit);
-              columEdit.appendChild(buttonEdit);
-              buttonEdit.onclick = ()=>{
-                location.href = "/users/edit/" + users._id;
+          const columFechaFin = document.createElement("td");
+          //asignamos un texto
+          columFechaFin.innerText = travel.fechaFin;
+          //añadimos la columna a la fila
+          tableRow.appendChild(columFechaFin);
+          const columEdit = document.createElement("td");
+          const buttonEdit = document.createElement("button");
+          buttonEdit.innerHTML = "Editar";
+          tableRow.appendChild(columEdit);
+          columEdit.appendChild(buttonEdit);
+          buttonEdit.onclick = () => {
+            location.href = "/travels/edit/" + travel._id;
+          }
+
+          const columDelete = document.createElement("td");
+          const buttonDelete = document.createElement("button");
+          buttonDelete.innerHTML = "Eliminar";
+          tableRow.appendChild(columDelete);
+          columDelete.appendChild(buttonDelete);
+          buttonDelete.onclick = () => {
+            fetch("api/travels/" + travel._id, {
+              method: "delete",
+              headers: {
+                "Content-type": "application/json",
+                Authorization: "Bearer " + token
               }
-              
-            
+            }).then(() => {
+              location.href = "/travels";
+            });
+          };
 
-            // if (users.email) {
-            //   const columDelete = document.createElement("td");
-            //   const buttonDelete = document.createElement("button");
-            //   buttonDelete.innerHTML = "Eliminar";
-            //   tableRow.appendChild(columDelete);
-            //   columDelete.appendChild(buttonDelete);
-            //   buttonDelete.onclick = () => {
-            //     fetch("api/users/" + users._id, {
-            //       method: "delete",
-            //       headers: {
-            //         "Content-type": "application/json",
-            //         Authorization: "Bearer " + token
-            //       }
-            //     }).then(() => {
-            //       location.href = "/users";
-            //     });
-            //   };
-            // }
+          document.getElementById("myTable").appendChild(tableRow);
+          document.getElementById("myTable").hidden = false;
 
-            document.getElementById("myTable").appendChild(tableRow);
-          })
-        );
-      }
-    });
+        })
+      )
+    }
+  });
 
-  </script>
+
+
+
+</script>
 
 <%include _footer.ejs%>
