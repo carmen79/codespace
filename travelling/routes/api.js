@@ -130,6 +130,7 @@ router.post('/travels', function (req, res) {
               destino: newtravel.destino,
               fechaInicio: newtravel.fechaInicio,
               fechaFin: newtravel.fechaFin,
+              descripcion: newtravel.descripcion,
               userId: payload._id
              
             }, (error, result) => {// tine que tener un callback (sera error y result)
@@ -155,7 +156,8 @@ router.put("/travels/:id", (req, res) => {
                 {
                     destino: data.destino,
                     fechaInicio: data.fechaInicio,
-                    fechaFin: data.fechaFin
+                    fechaFin: data.fechaFin,
+                    descripcion: data.descripcion
                 }
             }, (error, result) => {
                 if (error) throw error;

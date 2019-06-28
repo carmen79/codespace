@@ -39,7 +39,7 @@
     <div>
 
       <div class="card-panel teal lighten-2">
-        <h5 style="color: white">Introduce tus credenciales</h5>
+        <h5 style="color: white">Introduce tus datos</h5>
       </div>
 
       <div style="margin-top:50px; margin-left: 20px">
@@ -134,8 +134,10 @@
               localStorage.setItem("token", text);
               location.href = "/travels";
             });
-          }
+          }else {}
         });
+        //SI recibo un error de la consulta
+        //quiero que aparezca un mensaje
     }
 
     // Simplemente, eliminamos el token del local storage

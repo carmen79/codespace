@@ -1,6 +1,6 @@
 <%include _header.ejs%>
 
-<h3 id="welcome"></h3>
+<h2 id="welcome"></h2>
 
 <!-- esta va a ser la lista de viajes del usuario logeado -->
 <table id="myTable" hidden="true">
@@ -8,6 +8,7 @@
     <th scope="col">Destino</th>
     <th scope="col">Inicio</th>
     <th scope="col">Fin</th>
+    <th scope="col">Descripción</th>
     <th scope="col">Editar</th>
     <th scope="col">Eliminar</th>
   </tr>
@@ -26,7 +27,8 @@
 
   const token = localStorage.getItem("token");
   const decoded = jwt_decode(token);
-  document.getElementById("welcome").innerText = "Welcome " + decoded.username + "";
+  document.getElementById("welcome").innerText = "Bienvenido/a a esta comunidad viajera " 
+  + decoded.username + ". ¿Quieres dar de alta un viaje?";
   console.log(decoded);
 
   fetch("api/travels", {
@@ -57,6 +59,13 @@
           columFechaFin.innerText = travel.fechaFin;
           //añadimos la columna a la fila
           tableRow.appendChild(columFechaFin);
+
+          const columDescripcion = document.createElement("td");
+          //asignamos un texto
+          columDescripcion.innerText = travel.descripcion;
+          //añadimos la columna a la fila
+          tableRow.appendChild(columDescripcion);
+
           const columEdit = document.createElement("td");
           const buttonEdit = document.createElement("button");
           buttonEdit.innerHTML = "Editar";
@@ -85,7 +94,8 @@
 
           document.getElementById("myTable").appendChild(tableRow);
           document.getElementById("myTable").hidden = false;
-
+          document.getElementById("welcome").innerText = "Hola!" 
+          + decoded.username + " aqui tienes todos tus viajes";
         })
       )
     }
