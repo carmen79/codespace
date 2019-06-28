@@ -16,3 +16,13 @@ body, html {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.flex-container > div {
+  margin: 20px;
+}
