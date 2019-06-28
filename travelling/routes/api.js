@@ -16,9 +16,9 @@ router.get('/travels', (req, res) => {
     console.log(token);
 
     try {
-        const payload = jwt.verify(token, "mysecret"); 
+        const payload = jwt.verify(token, "mysecret");
 
-        query = global.dbo.collection("travels").find ({userId: payload._id}, {});
+        query = global.dbo.collection("travels").find({ userId: payload._id }, {});
         // este userId será el id del usuario que lo tengo que guardar en la 
         //bbdd de Travel
         query.toArray().then(documents => {
@@ -71,47 +71,47 @@ router.post('/auth', function (req, res) {
                     _id: documents[0]._id,
                     username: documents[0].username,
                     admin: documents[0].admin ? true : false
-                    
+
                 },
                 "mysecret",
                 {
                     expiresIn: 3600
                 }
-            ); console.log (token)
+            ); console.log(token)
             res.send(token);
         } else {
-            res.status(400).send("Invalid credentials");
+            res.status(401).send("Invalid credentials");
         }
     });
 });
- //se queda para registrar el usuario desde el inicio
- //AQUI SE CREA NUEVO USUARIO QUE SE REGISTRE
+//se queda para registrar el usuario desde el inicio
+//AQUI SE CREA NUEVO USUARIO QUE SE REGISTRE
 router.post('/users', function (req, res) {
     const newUser = req.body;
 
-      try {
-            global.dbo.collection("users").insertOne({
-                username: newUser.username,
-                password: md5(newUser.password),
-                admin: false,
-                email: newUser.email
+    try {
+        global.dbo.collection("users").insertOne({
+            username: newUser.username,
+            password: md5(newUser.password),
+            admin: false,
+            email: newUser.email
 
-            }, (error, result) => {// tine que tener un callback (sera error y result)
-                if (error) throw error;
+        }, (error, result) => {// tine que tener un callback (sera error y result)
+            if (error) throw error;
             var token = jwt.sign(
-                 {
-                   _id: result.insertedId, //el result de mongo trae el id
-                   username: newUser.username,
-                   admin: newUser.admin ? true : false
-                        
-                    },
-                    "mysecret",
-                    {
-                        expiresIn: 3600
-                    }
-                ); console.log (token)
-                res.send(token);            
-            });
+                {
+                    _id: result.insertedId, //el result de mongo trae el id
+                    username: newUser.username,
+                    admin: newUser.admin ? true : false
+
+                },
+                "mysecret",
+                {
+                    expiresIn: 3600
+                }
+            ); console.log(token)
+            res.send(token);
+        });
 
     } catch (_err) {
         console.log(_err);
@@ -124,19 +124,18 @@ router.post('/travels', function (req, res) {
     const token = req.headers.authorization.replace("Bearer ", "");
 
 
-      try {
-        const payload = jwt.verify(token, "mysecret"); 
+    try {
+        const payload = jwt.verify(token, "mysecret");
         global.dbo.collection("travels").insertOne({
-              destino: newtravel.destino,
-              fechaInicio: newtravel.fechaInicio,
-              fechaFin: newtravel.fechaFin,
-              descripcion: newtravel.descripcion,
-              userId: payload._id
-             
-            }, (error, result) => {// tine que tener un callback (sera error y result)
-                if (error) throw error;
-                res.send("ok");
-            });
+            destino: newtravel.destino,
+            fechaInicio: newtravel.fechaInicio,
+            fechaFin: newtravel.fechaFin,
+            descripcion: newtravel.descripcion,
+            userId: payload._id
+        }, (error, result) => {// tine que tener un callback (sera error y result)
+            if (error) throw error;
+            res.send("ok");
+        });
     } catch (_err) {
         console.log(_err);
         res.status(401).send("an error has occurd");
@@ -151,19 +150,19 @@ router.put("/travels/:id", (req, res) => {
     const data = req.body;
 
     try {
-            global.dbo.collection("travels").updateOne({ _id: mongo.ObjectId(travelsId) }, {
-                $set:
-                {
-                    destino: data.destino,
-                    fechaInicio: data.fechaInicio,
-                    fechaFin: data.fechaFin,
-                    descripcion: data.descripcion
-                }
-            }, (error, result) => {
-                if (error) throw error;
-                res.send(result)
-            });
-        
+        global.dbo.collection("travels").updateOne({ _id: mongo.ObjectId(travelsId) }, {
+            $set:
+            {
+                destino: data.destino,
+                fechaInicio: data.fechaInicio,
+                fechaFin: data.fechaFin,
+                descripcion: data.descripcion
+            }
+        }, (error, result) => {
+            if (error) throw error;
+            res.send(result)
+        });
+
     } catch (_err) {
         console.log(_err);
         res.status(401).send(" you don't have permission to edit");
@@ -176,13 +175,13 @@ router.delete("/travels/:id", (req, res) => {
 
     try {
         const payload = jwt.verify(token, "mysecret");
-   
-          global.dbo.collection("travels").removeOne({ _id: mongo.ObjectId(travelId)},
-                (error, result) => {
-                    if (error) throw error;
-                    res.send("deleted")
-                });
-        } catch (_err) {
+
+        global.dbo.collection("travels").removeOne({ _id: mongo.ObjectId(travelId) },
+            (error, result) => {
+                if (error) throw error;
+                res.send("deleted")
+            });
+    } catch (_err) {
         console.log(_err);
         res.status(401).send(" you don't have permission to delete");
     }

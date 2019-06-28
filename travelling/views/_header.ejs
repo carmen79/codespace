@@ -162,10 +162,12 @@
               localStorage.setItem("token", text);
               location.href = "/travels";
             });
-          }else {}
+          } else {
+            alert("Los datos introducidos no son correctos");
+          }
         });
-        //SI recibo un error de la consulta
-        //quiero que aparezca un mensaje
+      //SI recibo un error de la consulta
+      //quiero que aparezca un mensaje
     }
 
     // Simplemente, eliminamos el token del local storage
