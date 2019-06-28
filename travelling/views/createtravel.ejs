@@ -8,7 +8,8 @@
             <input type="date" class="datepicker" name="fechaInicio" id="fechaInicio" value="">
             <h3>Fecha Fin</h3>
             <input type="date" class="datepicker"  name="fechaFin" id="fechaFin" value="">
-            
+            <h3>Describe tu viaje</h3>
+            <input type="text" name="descripcion" id="descripcion" value="">
         </div>
         <input type="button" value="Crear Viaje" onclick="create()">
 
@@ -25,6 +26,7 @@
       const destinoValue = document.getElementById("destino").value;
       const fechaInicioValue = document.getElementById("fechaInicio").value;
       const fechaFinValue = document.getElementById("fechaFin").value; 
+      const descripcionValue = document.getElementById("descripcion").value;
       const token = localStorage.getItem("token");
       
        fetch("/api/travels", {
@@ -33,7 +35,8 @@
           "Content-type": "application/json",
           Authorization: "Bearer " + token
            },
-        body: JSON.stringify({destino: destinoValue, fechaInicio: fechaInicioValue, fechaFin:fechaFinValue })
+        body: JSON.stringify({destino: destinoValue, fechaInicio: fechaInicioValue, 
+          fechaFin:fechaFinValue, descripcion:descripcionValue })
           
       }).then(res =>{
         if (res.ok){
