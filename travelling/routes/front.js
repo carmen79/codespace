@@ -1,25 +1,25 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-    res.render('index', { title: 'Express' });
+router.get('/', (req, res, next) => {
+  res.render('index', { title: 'Express' });
 });
 
 
-router.get('/travels', function (req, res, next) {
-    res.render('travels');
+router.get('/travels', (req, res, next) => {
+  res.render('travels');
 });
 
-router.get('/createtravel', function (req, res, next) {
-    res.render('createtravel');
+router.get('/createtravel', (req, res, next) => {
+  res.render('createtravel');
 });
 
-router.get('/travels/edit/:id', function (req, res, next) {
-    res.render('edit');
+router.get('/travels/edit/:id', (req, res, next) => {
+  res.render('edit');
 });
-router.get('/users/edit/:id', function (req, res, next) {
-    res.render('edit');
+router.get('/users/edit/:id', (req, res, next) => {
+  res.render('edit');
 });
 
 module.exports = router;

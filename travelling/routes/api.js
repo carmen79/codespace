@@ -25,7 +25,7 @@ router.get('/travels', (req, res) => {
             res.send(documents);
             // este document se refiere a un registro de la bbdd que en mongo son document
         });
-    } catch {
+    } catch (e) {
         res.status(401).send("You don't have permission");
     }
 
@@ -48,7 +48,7 @@ router.get('/travels/:id', (req, res) => {
             res.send(documents[0]);
         });
 
-    } catch (e) {
+    } catch (err) {
         res.status(401).send("you don`t have permission");
     }
 
