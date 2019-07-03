@@ -9,6 +9,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { PotterService } from './servicies/potter.service';
+import { CardComponent } from './components/card/card.component';
 
 
 
@@ -18,7 +19,8 @@ import { PotterService } from './servicies/potter.service';
     AppComponent,
     NavbarComponent,
     HomeComponent,
-    ProfileComponent
+    ProfileComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,

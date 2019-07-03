@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PotterService } from '../../servicies/potter.service';
+import { Character } from '../../model/character';
 
 @Component({
   selector: 'app-home',
@@ -8,10 +9,13 @@ import { PotterService } from '../../servicies/potter.service';
 })
 export class HomeComponent implements OnInit {
 
+  characters: Character[];
+
   constructor(private potterService: PotterService) { }
 
   ngOnInit() {
-    this.potterService.people();
+    this.potterService.characters().subscribe(( characters: Character[]) => this.characters = characters)
+
   }
 
 }

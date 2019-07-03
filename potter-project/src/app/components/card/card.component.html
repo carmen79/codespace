@@ -1,0 +1,10 @@
+<div class="card me-4" style="width: 18rem;">
+    <img [src]="character.image" class="card-img-top" >
+    <div class="card-body">
+      <h4 class="text-center">Name: {{character.name|lowercase}}</h4>
+      <button 
+      *ngIf= "character.house !== 'Slytherin'"
+      class="btn"
+      [ngClass] = "{'btn-danger': character.house === 'Gryffindor', 'btn-primary': character.house !== 'Gryffindor'}"></button>
+    </div>
+  </div>
