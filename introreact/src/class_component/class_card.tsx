@@ -18,6 +18,9 @@ interface IState {
 
 //Los componentes tienen estado, esto se lo pasamos a la clase al igual que Iprops la defino en una interface tb
 
+
+
+
 class CardClass extends React.Component<Iprops, IState> {
     constructor(props:Iprops) {
         super(props);//llamo al constructor de la clase que extiendo
@@ -28,6 +31,7 @@ class CardClass extends React.Component<Iprops, IState> {
             nClicks:0
         }
     }
+  
 //el setState te hace la funcion y te mantiene el nuevo estado
   click() {
     this.setState({nClicks: this.state.nClicks +1});

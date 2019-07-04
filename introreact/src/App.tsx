@@ -1,7 +1,6 @@
+
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import Main from "./components/main";
 import Card from "./components/card";
 import CardClass from "./class_component/class_card";
 
