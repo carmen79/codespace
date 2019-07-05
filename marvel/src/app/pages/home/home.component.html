@@ -1,1 +1,11 @@
-<p>home works!</p>
+<!-- Aquí iría el carrousel y las card. -->
+<div>
+    <img src="../../../assets/img/peli.jpeg" alt="" >
+</div>
+
+<div class="card-deck">
+<!-- componente hijo, le pasamos [movie] pq es una propiedad que la controla angular-->
+<app-cards *ngFor = 'let movie of movies'[movie]='movie' (message)="messageEmitted($event)"> </app-cards>
+
+
+</div>

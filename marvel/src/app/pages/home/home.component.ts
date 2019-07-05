@@ -7,11 +7,18 @@ import { MovieService } from '../../services/movie.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
+  movies;
   constructor(private movieService: MovieService) { }
 
   ngOnInit() {
-    this.movieService.movieTheaters().subscribe(data => console.log(data));
-  }
+    this.movieService.movieTheaters().subscribe(
+      (data: {pages: number, total_results: number, total_page: number, results: any[]}) => {
+      this.movies = data.results
+     });
 
-}
+      }
+
+      messageEmitted(event) {
+        console.log(event);
+      }
+    }

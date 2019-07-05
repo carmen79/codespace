@@ -1,0 +1,10 @@
+<div class="card mt-4" style="width: 18rem;">
+    <img class="card-img-top" *ngIf= 'movie.poster_path === null' src="https://data.pixiz.com/output/user/frame/preview/400x400/1/5/9/4/4951_5db2b.jpg" alt="Card image cap">
+    <img class="card-img-top" *ngIf= 'movie.poster_path' src="https://image.tmdb.org/t/p/w500/{{movie.poster_path}}" alt="Card image cap">
+
+    <div class="card-body">
+      <h5 class="card-title">{{movie.title}}</h5>
+      <p class="card-text">{{movie.overview}}</p>
+      <a  class="btn btn-primary" (click)= "emitToMyFather()">More Info</a>
+    </div>
+  </div>
