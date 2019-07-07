@@ -21,19 +21,7 @@ class App_todo extends React.Component<{}, IState> {
     this.addTodo = this.addTodo.bind(this);
     this.deleteTodo = this.deleteTodo.bind(this);
   }
-  updateInput(event: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ inputValue: event.target.value });
-  }
-  addTodo() {
-    const texts = this.state.texts;
-    texts.push(this.state.inputValue);
-    this.setState({ texts, inputValue: "" });
-  }
-  deleteTodo(index: number) {
-    const texts = this.state.texts;
-    texts.splice(index, 1);
-    this.setState({ texts });
-  }
+
   render() {
     return (
       <div>
@@ -58,6 +46,23 @@ class App_todo extends React.Component<{}, IState> {
       </div>
     );
   }
+
+
+  updateInput(event: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ inputValue: event.target.value });
+    console.log("Estado interno : " + this.state.inputValue);
+  }
+  addTodo() {
+    const texts = this.state.texts;
+    texts.push(this.state.inputValue);
+    this.setState({ texts, inputValue: "" });
+  }
+  deleteTodo(index: number) {
+    const texts = this.state.texts;
+    texts.splice(index, 1);
+    this.setState({ texts });
+  }
+
 }
 
 export default App_todo;

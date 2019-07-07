@@ -13,7 +13,7 @@ class Todo extends React.Component<Iprops> {
       <div>
         <div> {this.props.text}</div>
         <div>
-          <button onClick={this.props.delete}>X</button>
+          <button onClick={this.props.delete}>Delete</button>
         </div>
       </div>
     );

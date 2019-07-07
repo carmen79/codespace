@@ -4,6 +4,7 @@ import './index.css';
 // import App from './App';
 import * as serviceWorker from './serviceWorker';
 import App_todo from './App_todo';
+import App_footer from './App_footer';
 
 ReactDOM.render(<App_todo />, document.getElementById('root'));
 // ReactDOM.render(<App_todo />, document.getElementById('root'));

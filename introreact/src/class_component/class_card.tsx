@@ -8,7 +8,7 @@ interface Iprops {
 }
 
 interface IState {
-    nClicks:number;
+  nClicks: number;
 }
 //Esto es crear un componente con clase
 //react component es una clase, a la cual le añadimos el render, por eso le ponemos el extends
@@ -22,22 +22,22 @@ interface IState {
 
 
 class CardClass extends React.Component<Iprops, IState> {
-    constructor(props:Iprops) {
-        super(props);//llamo al constructor de la clase que extiendo
+  constructor(props: Iprops) {
+    super(props);//llamo al constructor de la clase que extiendo
 
-        this.click = this.click.bind(this);
-        this.click2 = this.click2.bind(this);
-        this.state = {
-            nClicks:0
-        }
+    this.click = this.click.bind(this);
+    this.click2 = this.click2.bind(this);
+    this.state = {
+      nClicks: 0
     }
-  
-//el setState te hace la funcion y te mantiene el nuevo estado
-  click() {
-    this.setState({nClicks: this.state.nClicks +1});
   }
-  click2(){
-    this.setState({nClicks: this.state.nClicks -1});
+
+  //el setState te hace la funcion y te mantiene el nuevo estado
+  click() {
+    this.setState({ nClicks: this.state.nClicks + 1 });
+  }
+  click2() {
+    this.setState({ nClicks: this.state.nClicks - 1 });
 
   }
   render() {
@@ -51,7 +51,7 @@ class CardClass extends React.Component<Iprops, IState> {
           style={{ width: "80px", height: "80px" }}
         />
         <div className="card-body">
-          <p className="card-text" style={{ color: "white" }}onClick={this.click2}>
+          <p className="card-text" style={{ color: "white" }} onClick={this.click2}>
             {" "}
             {this.props.name}{" "}
           </p>
