@@ -1,9 +1,10 @@
 import React from "react";
-// import { ITravel } from "../interfaces";
+import { ITravel } from "../interfaces";
 // import Table from "./table";
+import { setToken } from '../actions';
 
 interface IProps {
-  giveMeToken: (token: string) => void;
+
 }
 //Aquí voy a definir qué tipo de datos
 //van a llegar al array
@@ -15,7 +16,7 @@ interface IProps {
 const Login: React.FC<IProps> = props => {
   const [userNameValue, setUserNameValue] = React.useState("");
   const [passwordValue, setPasswordValue] = React.useState("");
-  // const [travels, setTravels] = React.useState<ITravel[]>([]);
+
 
   const updateUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserNameValue(event.target.value);
@@ -37,27 +38,12 @@ const Login: React.FC<IProps> = props => {
     })
       .then(res => res.text())
       .then(token => {
-        props.giveMeToken(token);
-        // console.log(token);
+      
+        console.log(token);
+        setToken(token);
         // getTravels(token);
       });
   };
-
-  //aquí hacemos la petición Fetch para listar viajes
-  //lo que nos devuelve lo guardamos en un array
-
-  // const getTravels = (token: string) => {
-  //   fetch("http://localhost:8080/api/travels", {
-  //     headers: {
-  //       "Content-type": "application/json",
-  //       Authorization: "Bearer " + token
-  //     }
-  //   }).then(res => {
-  //     if (res.ok) {
-  //       res.json().then(travels => setTravels(travels));
-  //     }
-  //   });
-  // };
 
   //en el return añadimos la tabla que se va a ir creando dinámicamente
   // para pintar los resultados de la petición fetch. Usamos el map
