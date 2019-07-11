@@ -1,5 +1,6 @@
 import { ActionCreator } from "redux";
 import { TAction } from "./actionTypes";
+import { ITravel } from './interfaces';
 
 //este actionCreator y TAction son tipos y hay que ponerlos
 
@@ -21,8 +22,15 @@ export const setNumber: ActionCreator<TAction> = (newValue: number) => ({
 
 export const setToken: ActionCreator<TAction> = (token: string) => ({
   type: "SET_TOKEN",
-  token
+  token: token
 });
+export const setTravel: ActionCreator<TAction> = (travels: ITravel[]) => ({
+  type: "SET_TRAVEL",
+  travels: travels
+});
+
+
+
 
 //aquí hemos creado una acción, que recibe un número
 // tiene un tipo  y el objeto ({}) será lo que le pasamos al

@@ -1,11 +1,16 @@
 import React from "react";
 import { ITravel } from "../interfaces";
+import { connect } from "react-redux";
+import { IGlobalState } from '../reducers';
 
 interface Iprops {
+
+}
+interface IPropsGlobal {
   travels: ITravel[];
 }
 
-const Table: React.FC<Iprops> = props => {
+const Table: React.FC<Iprops & IPropsGlobal> = props => {
   return (
     <table className="table table-striped mt-5">
       <thead>
@@ -30,4 +35,7 @@ const Table: React.FC<Iprops> = props => {
   );
 };
 
-export default Table;
+const mapStateToProps = (state:IGlobalState)=> ({
+  travels:state.travels
+});
+export default connect (mapStateToProps)(Table);

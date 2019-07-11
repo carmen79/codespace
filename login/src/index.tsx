@@ -6,11 +6,12 @@ import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux';
 import {createStore, Action} from 'redux';
 import { reducers } from './reducers';
+import { devToolsEnhancer } from 'redux-devtools-extension';
 
 // el reducer tiene un estado inicial y una acción
 
 
-const store = createStore(reducers);
+const store = createStore(reducers, devToolsEnhancer({}));
 
 
 ReactDOM.render(

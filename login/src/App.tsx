@@ -6,18 +6,19 @@ import { connect } from "react-redux";
 import { IGlobalState } from "./reducers";
 import { ITravel } from "./interfaces";
 import Table from "./components/table";
+import { setTravel } from "./actions";
 
 //Podemos tener en un componente un Iprops que son las
 //propiedades que vienen del padre y para diferenciar las que
 // vienen del Global(redux) le podemos llamar interface IPropsGlobal
 
 interface IPropsGlobal {
+  travels: ITravel[];
   token: string;
+  setTravel: (travels: ITravel[]) => void;
 }
 
 const App: React.FC<IPropsGlobal> = props => {
-  const [travels, setTravels] = React.useState<ITravel[]>([]);
-
   const getTravels = (token: string) => {
     fetch("http://localhost:8080/api/travels", {
       headers: {
@@ -26,7 +27,7 @@ const App: React.FC<IPropsGlobal> = props => {
       }
     }).then(res => {
       if (res.ok) {
-        res.json().then(travels => setTravels(travels));
+        res.json().then(travels => props.setTravel(travels));
       }
     });
   };
@@ -42,10 +43,9 @@ const App: React.FC<IPropsGlobal> = props => {
       <div className="row">
         <div className="col-4">
           <Login />
-          {props.token}
-          <Table travels={travels} />
-        </div>
 
+          {props.travels.length > 0 && <Table />}
+        </div>
         <div className="col-4">
           <LoginClass />
         </div>
@@ -55,9 +55,17 @@ const App: React.FC<IPropsGlobal> = props => {
 };
 
 const mapStateToProps = (state: IGlobalState) => ({
+  travels: state.travels,
   token: state.token
 });
+const mapDispatchToProps = {
+  setTravel: setTravel
+};
+// El matDispatch nos sirve para enviar una acción desde el padre hacia el Store
 
-export default connect(mapStateToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
 // este connect hace que se puedan recibir props de redux
 // no solo del padre

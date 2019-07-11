@@ -1,18 +1,14 @@
 import React from "react";
-import { ITravel } from "../interfaces";
-// import Table from "./table";
-import { setToken } from "../actions";
 import { connect } from "react-redux";
+import { sendToken } from "../action";
 
 interface IProps {
-  setToken: (t: string) => void;
+  sendToken: (token: string) => void;
 }
-//Aquí voy a definir qué tipo de datos
-//van a llegar al array
 
-//Estas son las variables de estado
-//Aquí he definido la variable travels, en la que guardaré los datos que lleguen
-// de la petición fetch que son los viajes
+// Una de las primeras cosas para hacer: definir nuestro componente
+// en este caso lo definimos como función
+// Aquí cogemos los datos del input
 
 const Login: React.FC<IProps> = props => {
   const [userNameValue, setUserNameValue] = React.useState("");
@@ -24,9 +20,12 @@ const Login: React.FC<IProps> = props => {
   const updatePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordValue(event.target.value);
   };
-  //con los datos que tenemos enviamos al servidor para que nos cree el token,
-  // para ello declaramos una función fetch como la que tenemos en el proyecto dos
-  //y la llamamos en el on click del botón
+
+  //Aquí lanzamos función para solicitar token
+  //es una petición fetch que va al servidor allí
+  //genera el token y lo envía de vuelta, este token en principio se guarda aquí
+  // pero lo que queremos es guardarlo en el estore, para ello tenemos que hacer las
+  //typeactions + action y la reduces + token reduce.
 
   const getToken = () => {
     fetch("http://localhost:8080/api/auth", {
@@ -39,13 +38,10 @@ const Login: React.FC<IProps> = props => {
       .then(res => res.text())
       .then(token => {
         console.log(token);
-        props.setToken(token);
+        props.sendToken(token);
         // getTravels(token);
       });
   };
-
-  //en el return añadimos la tabla que se va a ir creando dinámicamente
-  // para pintar los resultados de la petición fetch. Usamos el map
 
   return (
     <div className="container">
@@ -69,8 +65,7 @@ const Login: React.FC<IProps> = props => {
     </div>
   );
 };
-
-const mapDispatchToProps = { setToken: setToken };
+const mapDispatchToProps = { sendToken: sendToken };
 
 export default connect(
   null,
