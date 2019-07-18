@@ -21,6 +21,7 @@ const Login: React.FC<any> = props => {
           .then(res => res.text())
           .then(token => {
             console.log(token);
+            //el token lo tengo y lo tengo que guardar en local store y tb en Redux
             // props.setToken(token);
           
           });
