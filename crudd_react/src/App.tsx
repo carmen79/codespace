@@ -1,29 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import Login from './components/login';
+import { IGlobalState } from './reducers';
+import { BrowserRouter, Redirect } from 'react-router-dom';
+import Homepage from './components/homepage';
+import { connect } from 'react-redux';
+import jwt from 'jsonwebtoken';
+import { statement } from '@babel/template';
 
 const App: React.FC = () => {
+  const [token, setToken] = React.useState("");
+  const [username, setUsername] = React.useState("");
+
+  const updateToken = (token: string) => {
+    setToken(token);
+  };
+
+  useEffect(() => {// aqui hacemos el useEffect para que me devuelva el nombre de mi usuario
+    if (token) {
+      const decode = jwt.decode(token);
+      if (typeof decode !== "string" && decode !== null) {// si el tipo de decodifiacion es didstinto de string y distinto de null decodifacame el username
+        setUsername(decode.username);
+      }
+    }
+  }, [token]);
+
+
+  useEffect(() => console.log(username), [username]);// aqui me imprime el nombre de mi usuario
 
   return (
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-4">
-          <Login />
-
-        </div>
-        </div>
-        </div>
-    
+    <BrowserRouter>
+      {!token && <Login setToken={updateToken} />}
+      {token && <Homepage userName={username} />}
+      <Redirect to="/" />
+    </BrowserRouter>
   );
-}
+};
 
-
-// aqui, hacemos la condición de si hay token muestra una página
-// si no hay token se muestra la página de login
-
-{/* <BrowserRouter>
-     {!token && <LoginPage saveToken={getToken} />}
-     {token && <LayoutPage  username={username}/>}
-     <Redirect to="/" />
-   </BrowserRouter> */}
 export default App;
+/*
+const mapStateToProps = (state: IGlobalState) => ({
+  tokenFromStore: state.token
+});
+// El matDispatch nos sirve para enviar una acción desde el padre hacia el Store
+
+export default connect(
+  mapStateToProps
+)(App);
+*/

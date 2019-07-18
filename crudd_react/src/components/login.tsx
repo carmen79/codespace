@@ -1,58 +1,71 @@
 import React from "react";
+import { connect } from "react-redux";
+import { setToken } from "../actions";
+import { IGlobalState } from "../reducers";
 
-const Login: React.FC<any> = props => {
-    const [userNameValue, setUserNameValue] = React.useState("");
-    const [passwordValue, setPasswordValue] = React.useState("");
-  
-    const updateUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setUserNameValue(event.target.value);
-    };
-    const updatePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setPasswordValue(event.target.value);
-    };
-    const getToken = () => {
-        fetch("http://localhost:8080/api/auth", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ username: userNameValue, password: passwordValue })
-        })
-          .then(res => res.text())
-          .then(token => {
-            console.log(token);
-            //el token lo tengo y lo tengo que guardar en local store y tb en Redux
-            // props.setToken(token);
-          
-          });
-      };
+interface IProps {
+  setToken: (t: string) => void;
+}
 
-      return (
-        <div className="container">
-          <div className="form-group">
-            <div>
-              <h5>User Name</h5>
-              <input value={userNameValue} type="text" onChange={updateUsername} />
-            </div>
-            <div>
-              <h5>Password</h5>
-              <input
-                value={passwordValue}
-                type="password"
-                onChange={updatePassword}
-              />
-            </div>
-            <div>
-              <button onClick={getToken}>enviar</button>
-            </div>
-          </div>
+const Login: React.FC<IProps> = props => {
+  const [userNameValue, setUserNameValue] = React.useState("");
+  const [passwordValue, setPasswordValue] = React.useState("");
+
+  const updateUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserNameValue(event.target.value);
+  };
+  const updatePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordValue(event.target.value);
+  };
+  const getToken = () => {
+    fetch("http://localhost:8080/api/auth", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username: userNameValue, password: passwordValue })
+    })
+      .then(res => res.text())
+      .then(token => {
+        console.log(token);
+        //el token lo tengo y lo tengo que guardar en local store y tb en Redux
+        props.setToken(token);
+
+      });
+  };
+
+  return (
+    <div className="container">
+      <div className="form-group">
+        <div>
+          <h5>User Name</h5>
+          <input value={userNameValue} type="text" onChange={updateUsername} />
         </div>
-      );
-    };
+        <div>
+          <h5>Password</h5>
+          <input
+            value={passwordValue}
+            type="password"
+            onChange={updatePassword}
+          />
+        </div>
+        <div>
+          <button onClick={getToken}>enviar</button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-    export default Login
+export default Login;
+/*
+const mapDispatchToProps = { setToken: setToken };
 
-
+export default connect(
+  null,
+  mapDispatchToProps
+)(Login);
+*/
 // este primer componente es el login
 // introducimos usuario y contraseña y 
 // enviamos fecht para generar un token
