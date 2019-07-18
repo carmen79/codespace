@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { sendToken } from "../action";
 
-interface IProps {
+interface IPropsGlobal {
   sendToken: (token: string) => void;
 }
 
@@ -10,7 +10,7 @@ interface IProps {
 // en este caso lo definimos como función
 // Aquí cogemos los datos del input
 
-const Login: React.FC<IProps> = props => {
+const Login: React.FC<IPropsGlobal> = props => {
   const [userNameValue, setUserNameValue] = React.useState("");
   const [passwordValue, setPasswordValue] = React.useState("");
 
