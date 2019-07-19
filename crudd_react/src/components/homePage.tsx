@@ -1,29 +1,56 @@
-import React from "react";
-import { connect } from 'react-redux';
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { IGlobalState } from "../reducers";
-
-interface IProps{
-    userName: string
+import Navbar from "./navbar";
+import { ITravel } from '../interface';
+import { setTravel } from '../actions';
+import Sidebar from './sidebar';
+interface IProps {
+  userName: string;
+}
+interface IPropsGlobal {
+  token: string;
+  setTravel: (travels:ITravel[]) =>void
+  travels:ITravel[]
 }
 // Esto viene de la APP que es donde he decodificado el token
+// son props del padre que uso en el hijo
 
+const Homepage: React.FC<IProps & IPropsGlobal> = props => {
+  const getTravels = (token: string) => {
+    fetch("http://localhost:8080/api/travels", {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + token
+      }
+    }).then(res => {
+      if (res.ok) {
+        res.json().then(travels => {
+         props.setTravel (travels);
+        });
+      }
+    });
+  };
 
-const Homepage: React.FC<IProps> = props => {
+  useEffect(() => {
+    if (props.token) {
+      getTravels(props.token);
+    }
+  }, [props.token]);
 
-
-    return (
-        <div className="container">
-            <div className="form-group">
-                <div>
-                    <h5>HOLAAA {props.userName} </h5>
-                </div>
-
-            </div>
-        </div>
-    );
+  return(
+      <div>
+       <Navbar userName={props.userName} />
+       <Sidebar />
+       </div>
+  )
 };
 
-// const mapStateToProps = (state:IGlobalState)=>{
-
-// }
-export default Homepage
+const mapStateToProps = (state: IGlobalState) => ({
+  token: state.token,
+  travels: state.travels
+});
+const mapDispatchToProps= {
+    setTravel:setTravel
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Homepage);

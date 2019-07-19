@@ -1,4 +1,4 @@
-
+import { ITravel } from "./interface";
 
 
 type TSetTokenAction = {
@@ -6,6 +6,11 @@ type TSetTokenAction = {
   token: string;
 };
 
+type TSetTravelAction = {
+  type: "SET_TRAVEL";
+  travels: ITravel[];
+};
 
 export type TAction =
   | TSetTokenAction
+  | TSetTravelAction

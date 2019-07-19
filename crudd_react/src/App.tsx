@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import './App.css';
 import Login from './components/login';
 import { IGlobalState } from './reducers';
-import { BrowserRouter, Redirect } from 'react-router-dom';
+import { BrowserRouter, Redirect, Switch, Route } from 'react-router-dom';
 import Homepage from './components/homepage';
 import { connect } from 'react-redux';
 import jwt from 'jsonwebtoken';
 import { statement } from '@babel/template';
+import Sidebar from './components/sidebar';
 
 interface IPropsGlobal {
   token:string;
@@ -37,6 +38,9 @@ const App: React.FC<IPropsGlobal>= (props) => {
       {!props.token && <Login />}
       {props.token && <Homepage userName ={username}/>}
       <Redirect to="/" />
+      <Switch>
+        <Route path="/travels/" exact component={Sidebar} />
+      </Switch>
     </BrowserRouter>
   );
 };
