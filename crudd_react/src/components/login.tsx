@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { setToken } from "../actions";
 import { IGlobalState } from "../reducers";
 
-interface IProps {
+interface IPropsGlobal {
   setToken: (t: string) => void;
 }
 
-const Login: React.FC<IProps> = props => {
+const Login: React.FC<IPropsGlobal> = props => {
   const [userNameValue, setUserNameValue] = React.useState("");
   const [passwordValue, setPasswordValue] = React.useState("");
 
@@ -28,7 +28,7 @@ const Login: React.FC<IProps> = props => {
       .then(res => res.text())
       .then(token => {
         console.log(token);
-        //el token lo tengo y lo tengo que guardar en local store y tb en Redux
+        //el token lo tengo y lo tengo que guardar en Redux
         props.setToken(token);
 
       });
@@ -57,18 +57,20 @@ const Login: React.FC<IProps> = props => {
   );
 };
 
-export default Login;
-/*
+// export default Login;
+
 const mapDispatchToProps = { setToken: setToken };
 
 export default connect(
   null,
   mapDispatchToProps
 )(Login);
-*/
+
+
+
 // este primer componente es el login
 // introducimos usuario y contraseña y 
 // enviamos fecht para generar un token
-// donde guardamos el token: en local store y en redux
+// donde guardamos el token:  en redux
 // en la app tenemos que hacer un BrowserRouter para decir: 
-//si hay no hay token memuestras la página de login y si hay token la principal
+//si  no hay token memuestras la página de login y si hay token la principal

@@ -8,43 +8,46 @@ import { connect } from 'react-redux';
 import jwt from 'jsonwebtoken';
 import { statement } from '@babel/template';
 
-const App: React.FC = () => {
-  const [token, setToken] = React.useState("");
+interface IPropsGlobal {
+  token:string;
+}
+
+const App: React.FC<IPropsGlobal>= (props) => {
+  // const [token, setToken] = React.useState("");
   const [username, setUsername] = React.useState("");
 
-  const updateToken = (token: string) => {
-    setToken(token);
-  };
+  // const updateToken = (token: string) => {
+  //   setToken(token);
+  // };
 
   useEffect(() => {// aqui hacemos el useEffect para que me devuelva el nombre de mi usuario
-    if (token) {
-      const decode = jwt.decode(token);
+    if (props.token) {
+      const decode = jwt.decode(props.token);
       if (typeof decode !== "string" && decode !== null) {// si el tipo de decodifiacion es didstinto de string y distinto de null decodifacame el username
         setUsername(decode.username);
       }
     }
-  }, [token]);
+  }, [props.token]);
 
 
   useEffect(() => console.log(username), [username]);// aqui me imprime el nombre de mi usuario
 
   return (
     <BrowserRouter>
-      {!token && <Login setToken={updateToken} />}
-      {token && <Homepage userName={username} />}
+      {!props.token && <Login />}
+      {props.token && <Homepage userName ={username}/>}
       <Redirect to="/" />
     </BrowserRouter>
   );
 };
 
-export default App;
-/*
+// export default App;
+
 const mapStateToProps = (state: IGlobalState) => ({
-  tokenFromStore: state.token
+  token: state.token
 });
 // El matDispatch nos sirve para enviar una acción desde el padre hacia el Store
 
 export default connect(
   mapStateToProps
 )(App);
-*/
