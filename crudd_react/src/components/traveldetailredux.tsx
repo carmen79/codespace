@@ -1,53 +1,33 @@
 import React, { useEffect } from "react";
-import { checkPropTypes } from "prop-types";
-import { ITravel } from "../interface";
+import { ITravel, IDecode } from "../interface";
 import { IGlobalState } from "../reducers";
 import { connect } from "react-redux";
-import { setTravel } from "../actions";
-
-interface IProps {
-  travelId: string;
-}
+import { RouteComponentProps } from "react-router-dom";
 
 interface IPropsGlobal {
-  token: string;
-  travels: ITravel[]
+  travels: ITravel[];
 }
 
-// Esto viene de la APP que es donde he decodificado el token
-// son props del padre que uso en el hijo
+const TravelDetailRedux: React.FC<
+  IPropsGlobal & RouteComponentProps<{ id: string }>
+> = props => {
+  const travel = props.travels.find(t => t._id === props.match.params.id);
 
-const TravelDetailRedux: React.FC<IProps & IPropsGlobal> = props => {
-
-  useEffect(() => {
-    if (props.token) {
-      getTravel(props.travelId, props.token);
-    }
-  });
-
-  const getTravel = (travelId: string, token: string) => {
-    console.log("TRAVEL ID: " + travelId);
-  };
+  if (!travel) {
+    return null;
+  }
 
   return (
     <div>
-      <header className="bg-primary">
-        This is the travel Detail component {props.travelId}
-      </header>
-      <div className="row">
-        Destino: {props.travels[0]}
-      </div>
+      <header className="bg-primary">Id_Travel {travel._id}</header>
+      <div className="row">Destino {travel.destino}</div>
+      <div className="row">Descripción {travel.descripcion}</div>
     </div>
   );
 };
 
-
-
 const mapStateToProps = (state: IGlobalState) => ({
-  token: state.token,
   travels: state.travels
 });
 
 export default connect(mapStateToProps)(TravelDetailRedux);
-
-

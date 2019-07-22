@@ -1,21 +1,22 @@
-import React, { useEffect } from 'react';
-import './App.css';
-import Login from './components/login';
-import { IGlobalState } from './reducers';
-import { BrowserRouter, Redirect, Switch, Route } from 'react-router-dom';
-import Homepage from './components/homepage';
-import { connect } from 'react-redux';
-import jwt from 'jsonwebtoken';
-import { statement } from '@babel/template';
-import Sidebar from './components/sidebar';
-import TravelDetail from './components/traveldetail';
-import TravelDetailRedux from './components/traveldetailredux';
+import React, { useEffect } from "react";
+import "./App.css";
+import Login from "./components/login";
+import { IGlobalState } from "./reducers";
+import { BrowserRouter, Redirect, Switch, Route } from "react-router-dom";
+import Homepage from "./components/homepage";
+import { connect } from "react-redux";
+import jwt from "jsonwebtoken";
+import Sidebar from "./components/sidebar";
+import TravelDetailRedux from "./components/traveldetailredux";
+import { IDecode } from "./interface";
+import { setDecode } from './actions';
 
 interface IPropsGlobalApp {
   token: string;
+  setDecode: (decode: IDecode) => void;
 }
 
-const App: React.FC<IPropsGlobalApp> = (props) => {
+const App: React.FC<IPropsGlobalApp> = props => {
   // const [token, setToken] = React.useState("");
   const [username, setUsername] = React.useState("");
 
@@ -23,17 +24,20 @@ const App: React.FC<IPropsGlobalApp> = (props) => {
   //   setToken(token);
   // };
 
-  useEffect(() => {// aqui hacemos el useEffect para que me devuelva el nombre de mi usuario
+  useEffect(() => {
+    // aqui hacemos el useEffect para que me devuelva el nombre de mi usuario
     if (props.token) {
       const decode = jwt.decode(props.token);
-      if (typeof decode !== "string" && decode !== null) {// si el tipo de decodifiacion es didstinto de string y distinto de null decodifacame el username
-        setUsername(decode.username);
+      if (typeof decode !== "string" && decode !== null) {
+        // si el tipo de decodifiacion es didstinto de string y distinto de null decodifacame el username
+        // setUsername(decode.username);
+        props.setDecode(decode);
+        console.log(decode);
       }
     }
   }, [props.token]);
 
-
-  useEffect(() => console.log(username), [username]);// aqui me imprime el nombre de mi usuario
+  useEffect(() => console.log(username), [username]); // aqui me imprime el nombre de mi usuario
 
   return (
     <BrowserRouter>
@@ -42,7 +46,7 @@ const App: React.FC<IPropsGlobalApp> = (props) => {
       <Redirect to="/" />
       <Switch>
         <Route path="/travels/" exact component={Sidebar} />
-        <Route path="/travels/:id" exact render={(props) => <TravelDetail travelId={props.match.params.id} />} />
+        <Route path="/travels/:id" exact component= {TravelDetailRedux}/>
       </Switch>
     </BrowserRouter>
   );
@@ -53,8 +57,9 @@ const App: React.FC<IPropsGlobalApp> = (props) => {
 const mapStateToProps = (state: IGlobalState) => ({
   token: state.token
 });
-// El matDispatch nos sirve para enviar una acción desde el padre hacia el Store
+const mapDispatchToProps= {
+  setDecode: setDecode
+}
+// El mapDispatch nos sirve para enviar una acción desde el padre hacia el Store
 
-export default connect(
-  mapStateToProps
-)(App);
+export default connect(mapStateToProps,mapDispatchToProps)(App);

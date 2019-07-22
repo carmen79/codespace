@@ -7,3 +7,7 @@ export interface ITravel {
   userId: string;
 }
 
+export interface IDecode {
+  _id?: string;
+  username?: string;
+}
