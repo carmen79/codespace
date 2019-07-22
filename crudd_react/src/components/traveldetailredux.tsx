@@ -16,6 +16,7 @@ const TravelDetailRedux: React.FC<
   if (!travel) {
     return null;
   }
+  // aqui hacemos un redirect a travels
 
   return (
     <div>
