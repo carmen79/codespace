@@ -5,13 +5,14 @@ import Navbar from "./navbar";
 import { ITravel } from '../interface';
 import { setTravel } from '../actions';
 import Sidebar from './sidebar';
+import TravelDetail from "./traveldetail";
 interface IProps {
-  userName: string;
+  userNameInternoHomepage: string;
 }
 interface IPropsGlobal {
   token: string;
-  setTravel: (travels:ITravel[]) =>void
-  travels:ITravel[]
+  setTravel: (travels: ITravel[]) => void
+  travels: ITravel[]
 }
 // Esto viene de la APP que es donde he decodificado el token
 // son props del padre que uso en el hijo
@@ -26,7 +27,7 @@ const Homepage: React.FC<IProps & IPropsGlobal> = props => {
     }).then(res => {
       if (res.ok) {
         res.json().then(travels => {
-         props.setTravel (travels);
+          props.setTravel(travels);
         });
       }
     });
@@ -38,11 +39,13 @@ const Homepage: React.FC<IProps & IPropsGlobal> = props => {
     }
   }, [props.token]);
 
-  return(
-      <div>
-       <Navbar userName={props.userName} />
-       <Sidebar />
-       </div>
+  return (
+    <div>
+      <Navbar userNameInternoNavbar={props.userNameInternoHomepage} />
+      <div className="container">
+        <Sidebar />
+      </div>
+    </div >
   )
 };
 
@@ -50,7 +53,7 @@ const mapStateToProps = (state: IGlobalState) => ({
   token: state.token,
   travels: state.travels
 });
-const mapDispatchToProps= {
-    setTravel:setTravel
+const mapDispatchToProps = {
+  setTravel: setTravel
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Homepage);

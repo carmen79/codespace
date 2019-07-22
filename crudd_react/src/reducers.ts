@@ -7,7 +7,7 @@ import { ITravel } from "./interface";
 
 export interface IGlobalState {
   token: string;
-  travels:ITravel[];
+  travels: ITravel[];
 }
 export const reducers = combineReducers({
 

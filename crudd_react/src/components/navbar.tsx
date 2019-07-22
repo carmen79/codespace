@@ -1,7 +1,7 @@
 import React from "react";
 
 interface IProps {
-  userName: string;
+  userNameInternoNavbar: string;
 }
 
 // Esto viene de la APP que es donde he decodificado el token
@@ -10,7 +10,7 @@ interface IProps {
 const Navbar: React.FC<IProps> = props => {
   return (
     <nav className="navbar navbar-dark bg-primary">
-      <span className="navbar-brand mb-0 h1"> Hello, {props.userName}</span>
+      <span className="navbar-brand mb-0 h1"> Hello, {props.userNameInternoNavbar}</span>
     </nav>
   );
 };

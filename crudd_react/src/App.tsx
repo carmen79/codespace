@@ -8,12 +8,14 @@ import { connect } from 'react-redux';
 import jwt from 'jsonwebtoken';
 import { statement } from '@babel/template';
 import Sidebar from './components/sidebar';
+import TravelDetail from './components/traveldetail';
+import TravelDetailRedux from './components/traveldetailredux';
 
-interface IPropsGlobal {
-  token:string;
+interface IPropsGlobalApp {
+  token: string;
 }
 
-const App: React.FC<IPropsGlobal>= (props) => {
+const App: React.FC<IPropsGlobalApp> = (props) => {
   // const [token, setToken] = React.useState("");
   const [username, setUsername] = React.useState("");
 
@@ -36,10 +38,11 @@ const App: React.FC<IPropsGlobal>= (props) => {
   return (
     <BrowserRouter>
       {!props.token && <Login />}
-      {props.token && <Homepage userName ={username}/>}
+      {props.token && <Homepage userNameInternoHomepage={username} />}
       <Redirect to="/" />
       <Switch>
         <Route path="/travels/" exact component={Sidebar} />
+        <Route path="/travels/:id" exact render={(props) => <TravelDetail travelId={props.match.params.id} />} />
       </Switch>
     </BrowserRouter>
   );

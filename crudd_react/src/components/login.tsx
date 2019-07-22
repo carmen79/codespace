@@ -4,7 +4,7 @@ import { setToken } from "../actions";
 import { IGlobalState } from "../reducers";
 
 interface IPropsGlobal {
-  setToken: (t: string) => void;
+  setTokenInterno: (t: string) => void;
 }
 
 const Login: React.FC<IPropsGlobal> = props => {
@@ -29,7 +29,7 @@ const Login: React.FC<IPropsGlobal> = props => {
       .then(token => {
         console.log(token);
         //el token lo tengo y lo tengo que guardar en Redux
-        props.setToken(token);
+        props.setTokenInterno(token);
 
       });
   };
@@ -57,9 +57,9 @@ const Login: React.FC<IPropsGlobal> = props => {
   );
 };
 
-// export default Login;
+//export default Login;
 
-const mapDispatchToProps = { setToken: setToken };
+const mapDispatchToProps = { setTokenInterno: setToken };
 
 export default connect(
   null,
