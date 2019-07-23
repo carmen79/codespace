@@ -16,6 +16,6 @@ export const reducers = combineReducers({
   token: tokenReducer,
   travels: travelReducer,
   decode: decodeReducer
-  
+
 
 });

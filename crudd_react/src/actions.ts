@@ -12,7 +12,7 @@ export const setTravel: ActionCreator<TAction> = (travels: ITravel[]) => ({
   travels: travels
 });
 
-export const setDecode: ActionCreator<TAction> = (decode:IDecode) => ({
+export const setDecode: ActionCreator<TAction> = (decode: IDecode) => ({
   type: "SET_DECODE",
-  decode:decode
+  decode: decode
 });

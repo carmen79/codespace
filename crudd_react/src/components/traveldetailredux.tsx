@@ -2,10 +2,13 @@ import React, { useEffect } from "react";
 import { ITravel, IDecode } from "../interface";
 import { IGlobalState } from "../reducers";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, Redirect } from "react-router-dom";
+import { setTravel } from "../actions";
 
 interface IPropsGlobal {
+  token: string;
   travels: ITravel[];
+  setTravel: (travels: ITravel[]) => void;
 }
 
 const TravelDetailRedux: React.FC<
@@ -18,17 +21,38 @@ const TravelDetailRedux: React.FC<
   }
   // aqui hacemos un redirect a travels
 
+  const deleteTravel = () => {
+    console.log("Deleting travel with id: " + travel._id);
+    fetch("http://localhost:8080/api/travels/" + travel._id, {
+      method: "delete",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + props.token
+      }
+    }).then(() => {
+
+      const index = props.travels.findIndex(t => t._id === props.match.params.id);
+      props.travels.splice(index, 1);
+      props.setTravel(props.travels);
+      props.history.push("/");
+    });
+  };
+
   return (
     <div>
       <header className="bg-primary">Id_Travel {travel._id}</header>
       <div className="row">Destino {travel.destino}</div>
       <div className="row">Descripción {travel.descripcion}</div>
+      <div className="row"><button onClick={deleteTravel}>Eliminar</button></div>
     </div>
   );
 };
 
 const mapStateToProps = (state: IGlobalState) => ({
+  token: state.token,
   travels: state.travels
 });
-
-export default connect(mapStateToProps)(TravelDetailRedux);
+const mapDispatchToProps = {
+  setTravel: setTravel
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TravelDetailRedux);
