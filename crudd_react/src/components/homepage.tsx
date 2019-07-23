@@ -41,11 +41,7 @@ const Homepage: React.FC<IProps & IPropsGlobal> = props => {
     }
   }, [props.token]);
 
-  useEffect(() => {
-    if (props.token) {
-      getTravels(props.token);
-    }
-  }, [props.travels]);
+
 
   return (
     < div >

@@ -47,6 +47,7 @@ const Login: React.FC<IPropsGlobal> = props => {
             value={passwordValue}
             type="password"
             onChange={updatePassword}
+            data-testid="password_input"
           />
         </div>
         <div>

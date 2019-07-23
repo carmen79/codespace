@@ -3,12 +3,13 @@ import { ITravel, IDecode } from "../interface";
 import { IGlobalState } from "../reducers";
 import { connect } from "react-redux";
 import { RouteComponentProps, Redirect } from "react-router-dom";
-import { setTravel } from "../actions";
+import * as actions from "../actions";
 
 interface IPropsGlobal {
   token: string;
   travels: ITravel[];
   setTravel: (travels: ITravel[]) => void;
+  removeTravel: (travel_id: string) => void;
 }
 
 const TravelDetailRedux: React.FC<
@@ -30,10 +31,7 @@ const TravelDetailRedux: React.FC<
         Authorization: "Bearer " + props.token
       }
     }).then(() => {
-
-      const index = props.travels.findIndex(t => t._id === props.match.params.id);
-      props.travels.splice(index, 1);
-      props.setTravel(props.travels);
+      props.removeTravel(travel._id);
       props.history.push("/");
     });
   };
@@ -43,7 +41,9 @@ const TravelDetailRedux: React.FC<
       <header className="bg-primary">Id_Travel {travel._id}</header>
       <div className="row">Destino {travel.destino}</div>
       <div className="row">Descripción {travel.descripcion}</div>
-      <div className="row"><button onClick={deleteTravel}>Eliminar</button></div>
+      <div className="row">
+        <button onClick={deleteTravel}>Eliminar</button>
+      </div>
     </div>
   );
 };
@@ -53,6 +53,10 @@ const mapStateToProps = (state: IGlobalState) => ({
   travels: state.travels
 });
 const mapDispatchToProps = {
-  setTravel: setTravel
+  setTravel: actions.setTravel,
+  removeTravel: actions.removeTravel
 };
-export default connect(mapStateToProps, mapDispatchToProps)(TravelDetailRedux);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TravelDetailRedux);

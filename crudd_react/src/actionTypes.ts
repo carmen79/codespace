@@ -15,8 +15,13 @@ type TSetDecodeAction = {
   type: "SET_DECODE";
   decode: IDecode;
 }
+type TRemoveTravelAction = {
+  type: "REMOVE_TRAVEL";
+  travel_id: string;
+};
 
 export type TAction =
   | TSetTokenAction
   | TSetTravelAction
   | TSetDecodeAction
+  | TRemoveTravelAction
