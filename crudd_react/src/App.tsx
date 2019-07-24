@@ -10,6 +10,7 @@ import Sidebar from "./components/sidebar";
 import TravelDetailRedux from "./components/traveldetailredux";
 import { IDecode } from "./interface";
 import { setDecode } from './actions';
+import NewTravel from "./components/newtravel";
 
 interface IPropsGlobalApp {
   token: string;
@@ -46,8 +47,9 @@ const App: React.FC<IPropsGlobalApp> = props => {
       <Redirect to="/" />
       <Switch>
         <Route path="/travels/" exact component={Sidebar} />
-        <Route path="/travels/:id" exact component= {TravelDetailRedux}/>
+        <Route path="/travels/:id" exact component={TravelDetailRedux} />
       </Switch>
+      <Route path="/travels/newtravel" exact component={NewTravel} />
     </BrowserRouter>
   );
 };
@@ -57,9 +59,9 @@ const App: React.FC<IPropsGlobalApp> = props => {
 const mapStateToProps = (state: IGlobalState) => ({
   token: state.token
 });
-const mapDispatchToProps= {
+const mapDispatchToProps = {
   setDecode: setDecode
 }
 // El mapDispatch nos sirve para enviar una acción desde el padre hacia el Store
 
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

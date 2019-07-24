@@ -19,9 +19,15 @@ type TRemoveTravelAction = {
   type: "REMOVE_TRAVEL";
   travel_id: string;
 };
+type TAddTravelAction = {
+  type: "ADD_TRAVEL";
+  travel: ITravel;
+};
+
 
 export type TAction =
   | TSetTokenAction
   | TSetTravelAction
   | TSetDecodeAction
   | TRemoveTravelAction
+  | TAddTravelAction

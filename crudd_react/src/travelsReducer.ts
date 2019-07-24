@@ -9,19 +9,24 @@ import { ITravel } from './interface';
 
 const initialState: ITravel[] = [];
 
-export const travelReducer = ( 
-  state:ITravel[]= initialState,
-  action:TAction
+export const travelReducer = (
+  state: ITravel[] = initialState,
+  action: TAction
 ): ITravel[] => {
-  if(action.type=="SET_TRAVEL") {
+  if (action.type == "SET_TRAVEL") {
     return action.travels
   }
 
   if (action.type === "REMOVE_TRAVEL") {
-      const index = state.findIndex(u => u._id === action.travel_id);
-      state.splice (index,1);
-      return [...state];
+    const index = state.findIndex(u => u._id === action.travel_id);
+    state.splice(index, 1);
+    return [...state];
   }
+  if (action.type === "ADD_TRAVEL") {
+    state.push(action.travel)
+    return [...state];
+  }
+
   return state
 }
 

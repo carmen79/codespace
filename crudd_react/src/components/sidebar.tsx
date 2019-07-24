@@ -10,6 +10,7 @@ interface IPropsGlobal {
 
 const Sidebar: React.FC<IPropsGlobal> = props => {
 
+
   return (
     <div className="container">
       {props.travels.map(t => (
@@ -21,9 +22,14 @@ const Sidebar: React.FC<IPropsGlobal> = props => {
           </div>
         </div>
       ))}
+      <div>
+        <Link className="btn btn-secondary" to={"/travels/newtravel"}>
+          Nuevo Viaje
+      </Link>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: IGlobalState) => ({
   travels: state.travels
