@@ -134,7 +134,7 @@ router.post('/travels', function (req, res) {
             userId: payload._id
         }, (error, result) => {// tine que tener un callback (sera error y result)
             if (error) throw error;
-            res.send("ok");
+            res.send(result.ops[0]);
         });
     } catch (_err) {
         console.log(_err);
