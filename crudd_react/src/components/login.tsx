@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { setToken } from "../actions";
 import { IGlobalState } from "../reducers";
+import { Link } from "react-router-dom";
 
 interface IPropsGlobal {
   setTokenInterno: (t: string) => void;
@@ -36,25 +37,34 @@ const Login: React.FC<IPropsGlobal> = props => {
 
   return (
     <div className="container">
+
+      <div className="card-panel teal lighten-2">
+        <h5>Introduce tus datos</h5>
+      </div>
+
       <div className="form-group">
-        <div>
-          <h5>User Name</h5>
-          <input value={userNameValue} type="text" onChange={updateUsername} />
+        <div className="input-field col s12">
+          <input id="username" className="validate" value={userNameValue} type="text" onChange={updateUsername} />
+          <label htmlFor="username">Usuario</label>
         </div>
-        <div>
-          <h5>Password</h5>
-          <input
+        <div className="input-field col s12">
+          <input className="validate" id="password"
             value={passwordValue}
             type="password"
             onChange={updatePassword}
             data-testid="password_input"
           />
-        </div>
-        <div>
-          <button onClick={getToken}>enviar</button>
+          <label htmlFor="password">Password</label>
         </div>
       </div>
-    </div>
+
+      <div>
+        <button className="waves-effect waves-light btn-small" onClick={getToken}>
+          <i className="material-icons right">account_circle</i>
+          Login
+          </button>
+      </div>
+    </div >
   );
 };
 
@@ -69,9 +79,9 @@ export default connect(
 
 
 
-// este primer componente es el login
-// introducimos usuario y contraseña y 
-// enviamos fecht para generar un token
-// donde guardamos el token:  en redux
-// en la app tenemos que hacer un BrowserRouter para decir: 
-//si  no hay token memuestras la página de login y si hay token la principal
+                                // este primer componente es el login
+                                // introducimos usuario y contraseña y 
+                                // enviamos fecht para generar un token
+                                // donde guardamos el token:  en redux
+                                // en la app tenemos que hacer un BrowserRouter para decir: 
+                                //si  no hay token memuestras la página de login y si hay token la principal

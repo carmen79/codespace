@@ -7,7 +7,7 @@ import * as actions from "../actions";
 
 interface IPropsGlobal {
   token: string;
-  addTravel: (travel: ITravel[]) => void;
+  addTravel: (travel: ITravel) => void;
 
 
 }
@@ -38,7 +38,9 @@ const NewTravel: React.FC<IPropsGlobal & RouteComponentProps> = props => {
     }).then(res => {
       if (res.ok) {
         res.text().then(text => {
-
+          console.log("JSON RESPONSE: " + res.json);
+          //let addedTravel: ITravel = res.json;
+          //props.addTravel(addedTravel);
           props.history.push("/");
         })
 
